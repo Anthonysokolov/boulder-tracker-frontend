@@ -1,4 +1,6 @@
 import React, {Component} from "react"
+import Navbar from './navbar'
+
 
 class SessionPage extends Component{
   constructor(props){
@@ -10,10 +12,13 @@ class SessionPage extends Component{
     // IDEAL FUNCTIONALITY
     // Option to view stats
     return(
-      <div className="session">
-        <p> Session Date: {data.date} </p>
-        <p> Location: {data.location} </p>
-        <p> Duration: {data.duration} minutes</p>
+      <div>
+        <Navbar/>
+        <div className="session">
+          <p> Session Date: {data.date} </p>
+          <p> Location: {data.location} </p>
+          <p> Duration: {data.duration} minutes</p>
+        </div>
       </div>
     )
   }

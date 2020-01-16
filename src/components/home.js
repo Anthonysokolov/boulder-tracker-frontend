@@ -14,7 +14,6 @@ class Home extends Component{
         <button> New Session </button>
         <button> My Sessions </button>
         <button> My Friends </button>
-        <SessionPage/>
       </div>
     )
   }
