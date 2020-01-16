@@ -1,4 +1,5 @@
 import React, {Component} from "react"
+import Navbar from './navbar'
 
 class Home extends Component{
   constructor(props){
@@ -7,6 +8,7 @@ class Home extends Component{
   render(){
     return(
       <div className="homepage">
+        <Navbar/>
         <h1> Boulder Tracker </h1>
         <button> New Session </button>
         <button> My Sessions </button>
