@@ -1,5 +1,6 @@
 import React, {Component} from "react"
 import Navbar from './navbar'
+import SessionPage from './sessionPage'
 
 class Home extends Component{
   constructor(props){
@@ -13,6 +14,7 @@ class Home extends Component{
         <button> New Session </button>
         <button> My Sessions </button>
         <button> My Friends </button>
+        <SessionPage/>
       </div>
     )
   }
