@@ -1,6 +1,6 @@
 import React, {Component} from "react"
 import Navbar from './navbar'
-
+import ProblemCard from './problemCard'
 
 class SessionPage extends Component{
   constructor(props){
@@ -18,6 +18,9 @@ class SessionPage extends Component{
           <p> Session Date: {data.date} </p>
           <p> Location: {data.location} </p>
           <p> Duration: {data.duration} minutes</p>
+          <div className="climbs">
+            <ProblemCard/>
+          </div>
         </div>
       </div>
     )
