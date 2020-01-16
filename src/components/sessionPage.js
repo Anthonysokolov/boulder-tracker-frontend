@@ -18,6 +18,8 @@ class SessionPage extends Component{
           <p> Session Date: {data.date} </p>
           <p> Location: {data.location} </p>
           <p> Duration: {data.duration} minutes</p>
+          <p> Ascents: </p>
+          <p> Top Grade: </p>
           <div className="climbs">
             <ProblemCard/>
           </div>
