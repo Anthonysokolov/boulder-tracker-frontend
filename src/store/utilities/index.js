@@ -15,7 +15,7 @@ function promiseTimeout(time) {
 
 // ACTION CREATORS;
 function testing() {
-  return { type: TESTER, testingMesssage: "hello world" };
+  return { type: TESTER, testingMessage: "hello world" };
 }
 
 // THUNKS;

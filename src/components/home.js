@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Navbar from "./navbar";
 import SessionPage from "./sessionPage";
+import { connect } from "react-redux";
 import { testingThunk } from "./../thunks/index";
 
 class Home extends Component {
@@ -20,7 +21,7 @@ class Home extends Component {
         <button> New Session </button>
         <button> My Sessions </button>
         <button> My Friends </button>
-        <button onClick={this.props.handleClick}> Testing Button </button>
+        <button onClick={this.handleClick}> Testing Button </button>
         <p>yes: {this.props.testMessage}</p>
       </div>
     );
@@ -28,7 +29,7 @@ class Home extends Component {
 }
 
 function mapState(state) {
-  return { testMessage: state.TEST_LIST };
+  return { testMessage: state.rootReducer.TEST_LIST };
 }
 
 function mapDispatch(dispatch) {
@@ -37,4 +38,4 @@ function mapDispatch(dispatch) {
   };
 }
 
-export default Home;
+export default connect(mapState, mapDispatch)(Home);
