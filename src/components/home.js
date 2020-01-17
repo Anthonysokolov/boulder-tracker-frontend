@@ -1,22 +1,40 @@
-import React, {Component} from "react"
-import Navbar from './navbar'
-import SessionPage from './sessionPage'
+import React, { Component } from "react";
+import Navbar from "./navbar";
+import SessionPage from "./sessionPage";
+import { testingThunk } from "./../thunks/index";
 
-class Home extends Component{
-  constructor(props){
-    super(props)
+class Home extends Component {
+  constructor(props) {
+    super(props);
   }
-  render(){
-    return(
+
+  handleClick = e => {
+    this.props.test();
+  };
+
+  render() {
+    return (
       <div className="homepage">
-        <Navbar/>
+        <Navbar />
         <h1> Boulder Tracker </h1>
         <button> New Session </button>
         <button> My Sessions </button>
         <button> My Friends </button>
+        <button onClick={this.props.handleClick}> Testing Button </button>
+        <p>yes: {this.props.testMessage}</p>
       </div>
-    )
+    );
   }
 }
 
-export default Home
+function mapState(state) {
+  return { testMessage: state.TEST_LIST };
+}
+
+function mapDispatch(dispatch) {
+  return {
+    test: () => dispatch(testingThunk())
+  };
+}
+
+export default Home;
