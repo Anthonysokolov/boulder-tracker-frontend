@@ -1,4 +1,4 @@
-import { promiseTimeout } from "index.js";
+import { promiseTimeout } from "./index.js";
 
 /********************************* ACTIONS ***********************************/
 
@@ -13,9 +13,9 @@ function fetchAction(data) {
 				date: element.date + " " + element.time.substring(0, 5),
 				comments: element.comments,
 				id: element.id
-			}
-		});
-	}
+			};
+		})
+	};
 }
 
 /********************************* THUNKS ***********************************/

@@ -1,4 +1,4 @@
-import { promiseTimeout } from "index.js";
+import { promiseTimeout } from "./index.js";
 
 /********************************* ACTIONS ***********************************/
 
