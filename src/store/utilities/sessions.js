@@ -11,7 +11,7 @@ function fetchAction(data) {
 		payload: data.map(function(element) {
 			return {
 				location: element.location,
-				date: element.date + " " + element.time.substring(0, 5),
+				date: element.date,
 				comments: element.comments,
 				id: element.id
 			};
@@ -34,7 +34,8 @@ export function fetchSessionsThunk() {
 	return function(dispatch) {
 		axios.get("/api/users/1")
 		.then(function(response) {
-			dispatch(fetchAction(response.data));
+			console.log(response);
+			dispatch(fetchAction(response.data.sessions));
 		})
 		.catch(function(response) {
 			console.log("Error from axios:", response);
