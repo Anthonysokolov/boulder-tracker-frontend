@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Navbar from "./../containers/navbar";
+import Button from "./Button";
 
 import "../../styles/common.css";
 
@@ -18,6 +19,10 @@ class Home extends Component {
         <Navbar />
         <h1 className="title"> Boulder Tracker </h1>
         <p className="subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vestibulum eleifend nisl ac tincidunt. Proin congue et nisi ut placerat. Suspendisse ornare nulla risus, sed pharetra nulla rutrum sit amet.</p>
+        <div className="centered">
+          <Button shape="long">Login</Button>
+          <Button shape="long">Signup</Button>
+        </div>
       </div>
     );
   }
