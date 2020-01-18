@@ -10,11 +10,10 @@ export default function SessionCard(props) {
       <div className="boxed">
         <div className="column">
           <p> Date: {props.date} </p>
-          <p> Time: {props.time} </p>
         </div>
         <div>
           <p> Location: {props.location} </p>
-          <p> Comments: {props.comment} </p>
+          <p> Comments: {props.comments} </p>
         </div>
       </div>
       <br />
