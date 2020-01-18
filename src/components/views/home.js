@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import Navbar from "./navbar";
+import Navbar from "./../containers/navbar";
 import SessionPage from "./sessionPage";
+import { testingThunk } from "./../../thunks/index";
 
 class Home extends Component {
   constructor(props) {
