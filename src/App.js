@@ -6,7 +6,7 @@ import store from "./store";
 import "./App.css";
 import Home from "./components/views/home";
 import SessionPage from "./components/views/sessionPage";
-import UserHomePage from "./components/views/userHomePage";
+import UserHomePage from "./components/containers/userHomePage";
 
 function App() {
   const HomeComponent = () => <Home />;

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Navbar from "./../containers/navbar";
 import ProblemCard from "./../containers/problemCard";
-import SessionCard from "./../containers/sessionCard";
 
 class SessionPage extends Component {
   constructor(props) {
@@ -28,9 +27,7 @@ class SessionPage extends Component {
           <p> Ascents: </p>
           <p> Top Grade: </p> <br />
           <h3> List of Climbs: </h3>
-          <div className="climbs">
-            <SessionCard />
-          </div>
+          <div className="climbs"></div>
         </div>
       </div>
     );
