@@ -1,4 +1,4 @@
-import axios;
+import axios from "axios";
 import { promiseTimeout } from "./index.js";
 
 /********************************* ACTIONS ***********************************/
