@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import Navbar from "./navbar";
 import SessionPage from "./sessionPage";
-import { connect } from "react-redux";
-import { testingThunk } from "./../thunks/index";
 
 class Home extends Component {
   constructor(props) {
@@ -28,14 +26,4 @@ class Home extends Component {
   }
 }
 
-function mapState(state) {
-  return { testMessage: state.rootReducer.TEST_LIST };
-}
-
-function mapDispatch(dispatch) {
-  return {
-    test: () => dispatch(testingThunk())
-  };
-}
-
-export default connect(mapState, mapDispatch)(Home);
+export default Home;
