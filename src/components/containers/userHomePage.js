@@ -3,12 +3,20 @@ import Navbar from "./../containers/navbar";
 import ProblemCard from "./../containers/problemCard";
 import SessionCard from "./../containers/sessionCard";
 
+import { fetchSessionsThunk } from "../../thunks";
+import { connect } from "react-redux";
+
 import "./userHomePage.css";
 
 class UserHomePage extends Component {
   constructor(props) {
     super(props);
   }
+
+  componentDidMount() {
+    this.fetchAllSessions();
+  }
+
   render() {
     let session1 = {
       location: "hunter college",
@@ -52,4 +60,16 @@ class UserHomePage extends Component {
   }
 }
 
-export default UserHomePage;
+function mapState(state) {
+  return {
+    sessions: state.sessions
+  };
+}
+
+function mapDispatch(dispatch) {
+  return {
+    fetchAllSessions: () => dispatch(fetchSessionsThunk())
+  };
+}
+
+export default connect(mapState, mapDispatch)(UserHomePage);
