@@ -5,21 +5,30 @@ import SessionCard from "./../views/sessionCard";
 import { fetchSessionsThunk } from "../../thunks";
 import { connect } from "react-redux";
 
+import "./../views/userHomePage.css";
+
 class UserHomePage extends Component {
   constructor(props) {
     super(props);
-  }
-
-  componentDidMount() {
-    this.fetchAllSessions();
+    this.props.fetchAllSessions();
   }
 
   render() {
+    console.log("yes", this.props.sessions);
     let sessions = this.props.sessions;
+    if (sessions === undefined) {
+      sessions = [];
+    }
+
+    console.log("sess", sessions);
     return (
       <div>
         <Navbar />
-        <SessionCard className="centered" />
+        <div className="centered">
+          {sessions.map(session => {
+            return <SessionCard {...session} />;
+          })}
+        </div>
       </div>
     );
   }
