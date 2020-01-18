@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Navbar from "./../containers/navbar";
-import SessionPage from "./sessionPage";
-import { testingThunk } from "./../../thunks/index";
+
+import "../../styles/common.css";
 
 class Home extends Component {
   constructor(props) {
@@ -16,12 +16,8 @@ class Home extends Component {
     return (
       <div className="homepage">
         <Navbar />
-        <h1> Boulder Tracker </h1>
-        <button> New Session </button>
-        <button> My Sessions </button>
-        <button> My Friends </button>
-        <button onClick={this.handleClick}> Testing Button </button>
-        <p>yes: {this.props.testMessage}</p>
+        <h1 className="title"> Boulder Tracker </h1>
+        <p className="subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vestibulum eleifend nisl ac tincidunt. Proin congue et nisi ut placerat. Suspendisse ornare nulla risus, sed pharetra nulla rutrum sit amet.</p>
       </div>
     );
   }
