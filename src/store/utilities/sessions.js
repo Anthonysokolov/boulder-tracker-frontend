@@ -1,3 +1,4 @@
+import axios;
 import { promiseTimeout } from "./index.js";
 
 /********************************* ACTIONS ***********************************/
@@ -31,8 +32,12 @@ var hardCoded = [
 */
 export function fetchSessionsThunk() {
 	return function(dispatch) {
-		promiseTimeout(1000).then(function() {
-			dispatch(fetchAction(hardCoded));
+		axios.get("/api/users/1")
+		.then(function(response) {
+			dispatch(fetchAction(response.data));
+		})
+		.catch(function(response) {
+			console.log("Error from axios:", response);
 		})
 	}
 }
