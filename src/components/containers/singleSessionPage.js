@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import Navbar from "./../containers/navbar";
+import Navbar from "./navbar";
+import Session from "../views/sessionPage.js";
 
 import { getSessionThunk } from "../../thunks";
 import { connect } from "react-redux";
@@ -7,24 +8,14 @@ import { connect } from "react-redux";
 class SingleSessionPage extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props);
-    //    this.props.getSession(this.props.match.params.id);
+    this.props.getSession(this.props.match.params.id);
   }
 
   render() {
-    console.log("session", this.props.session);
-    /*
-    let sessions = this.props.sessions;
-    if (sessions === undefined) {
-      sessions = [];
-    }
-
-    console.log("sess", sessions);
-    */
     return (
       <div>
         <Navbar />
-        <div className="centered">yes</div>
+        <Session {...this.props.session} />
       </div>
     );
   }
@@ -32,13 +23,13 @@ class SingleSessionPage extends Component {
 
 function mapState(state) {
   return {
-    session: state.session
+    session: state.singleSession
   };
 }
 
 function mapDispatch(dispatch) {
   return {
-    getSession: () => dispatch(getSessionThunk())
+    getSession: (id) => dispatch(getSessionThunk(id))
   };
 }
 

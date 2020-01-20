@@ -5,27 +5,19 @@ import { Provider } from "react-redux";
 import store from "./store";
 import "./App.css";
 import Home from "./components/views/home";
-import SessionPage from "./components/views/sessionPage";
 import SingleSessionPage from "./components/containers/singleSessionPage";
 import UserHomePage from "./components/containers/userHomePage";
 
 function App() {
   const HomeComponent = () => <Home />;
-  const SessionComponent = () => <SessionPage />;
-  const SingleSessionComponent = () => <SingleSessionPage />;
   const UserHomeComponent = () => <UserHomePage />;
   return (
     <Provider store={store}>
       <Router>
         <div>
+          <Route path="/session/:id" component={SingleSessionPage} />
+          <Route exact path="/home" render={UserHomeComponent} />
           <Route exact path="/" render={HomeComponent} />
-          <Route exact path="/session" render={SessionComponent} />
-          <Route
-            exact
-            path="/singleSession/:id"
-            render={SingleSessionComponent}
-          />
-          <Route exact path="/userHome" render={UserHomeComponent} />
         </div>
       </Router>
     </Provider>
