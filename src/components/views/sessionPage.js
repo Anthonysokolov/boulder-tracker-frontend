@@ -1,6 +1,4 @@
 import React from "react";
-import Navbar from "./../containers/navbar";
-import ProblemCard from "./../containers/problemCard";
 
 function SessionPage(props) {
   return (
