@@ -29,7 +29,7 @@ function mapState(state) {
 
 function mapDispatch(dispatch) {
   return {
-    getSession: (id) => dispatch(getSessionThunk(id))
+    getSession: id => dispatch(getSessionThunk(id))
   };
 }
 
