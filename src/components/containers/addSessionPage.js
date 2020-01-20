@@ -15,7 +15,6 @@ class AddSessionPage extends Component {
   }
 
   handleChangeLocation = ele => {
-    console.log(ele.target.value);
     this.setState({
       location: ele.target.value
     });
@@ -28,20 +27,21 @@ class AddSessionPage extends Component {
   };
 
   handleSubmit = ele => {
-    this.props.createSession({
+    let newSession = {
       location: this.state.location,
       comment: this.state.comment
-    });
+    };
+    console.log(newSession);
+    this.props.createSession(newSession);
   };
 
   render() {
     return (
       <div>
         <Navbar />
-        Location:{" "}
-        <input type="text" onChange={() => this.handleChangeLocation} />
+        Location: <input type="text" onChange={this.handleChangeLocation} />
         <br />
-        Comment: <input type="text" onChange={() => this.handleChangeComment} />
+        Comment: <input type="text" onChange={this.handleChangeComment} />
         <br />
         <input type="submit" onClick={this.handleSubmit} />
       </div>
