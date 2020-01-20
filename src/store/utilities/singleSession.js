@@ -50,7 +50,7 @@ const initialState = {};
 export default function singleSessionReducer(state = initialState, action) {
 	switch(action.type) {
 		case SELECT_SESSION:
-			return Object.assign({}, state, payload);
+			return Object.assign({}, state, action.payload);
 		default:
 			return state;
 	}
