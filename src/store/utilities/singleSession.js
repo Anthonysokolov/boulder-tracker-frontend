@@ -1,4 +1,4 @@
-import { promiseTimeout } from "./index.js";
+import axios from "axios";
 
 /********************************* ACTIONS ***********************************/
 
@@ -18,7 +18,6 @@ function selectAction(data) {
 
 /********************************* THUNKS ***********************************/
 
-const hardcodedSession = {location: "Mountains R Us", date: "18-01-2020 18:54:00", comments: "went out with friends", climbs: [], id: 0};
 const nonexistantSession = {location: "", date: "", comments: "", climbs: [], id: 1, exists: false};
 
 /**
@@ -32,13 +31,15 @@ const nonexistantSession = {location: "", date: "", comments: "", climbs: [], id
 */
 export function getSessionThunk(id) {
 	return function(dispatch) {
-		promiseTimeout(1000)
-		.then(function() {
+		axios.get("/api/sessions/" + id)
+		.then(function(response) {
+			console.log("api: ", response);
 			//this will be the data received from the response
-			hardcodedSession.exists = true;
-			dispatch(selectAction(hardcodedSession));
+			response.data.exists = true;
+			dispatch(selectAction(response.data));
 		})
 		.catch(function() {
+			nonexistantSession.id = id;
 			dispatch(selectAction(nonexistantSession))
 		});
 	}
