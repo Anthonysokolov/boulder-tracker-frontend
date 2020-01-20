@@ -3,6 +3,7 @@ import axios from "axios";
 /********************************* ACTIONS ***********************************/
 
 const FETCH_SESSIONS = "FETCH_SESSIONS";
+const CREATE_SESSION = "CREATE_SESSION";
 
 function fetchAction(data) {
 	return {
@@ -15,6 +16,13 @@ function fetchAction(data) {
 				id: element.id
 			};
 		})
+	};
+}
+
+function createAction(data) {
+	return {
+		type: CREATE_SESSION,
+		payload: data
 	};
 }
 
@@ -37,6 +45,22 @@ export function fetchSessionsThunk() {
 	}
 }
 
+/** 
+ * @param session  an object with two strings: location and comments.
+*/
+export function createSessionThunk(session) {
+	return function(dispatch) {
+		axios.post("/api/sessions/add", session)
+		.then(function(response) {
+			console.log("added", response);
+			dispatch(createAction(response.data));
+		})
+		.catch(function(response) {
+			console.log("Error from axios:", response);
+		})
+	}
+}
+
 /********************************* REDUCER ***********************************/
 const initialState = [];
 
@@ -44,6 +68,8 @@ export default function sessionsReducer(state = initialState, action) {
 	switch(action.type) {
 		case FETCH_SESSIONS:
 			return action.payload;
+		case CREATE_SESSION:
+			return state.concat(action.payload);
 		default:
 			return state;
 	}
