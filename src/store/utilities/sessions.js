@@ -34,7 +34,6 @@ export function fetchSessionsThunk() {
 	return function(dispatch) {
 		axios.get("/api/users/1")
 		.then(function(response) {
-			console.log(response);
 			dispatch(fetchAction(response.data.sessions));
 		})
 		.catch(function(response) {
