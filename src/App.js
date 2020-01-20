@@ -10,13 +10,12 @@ import UserHomePage from "./components/containers/userHomePage";
 
 function App() {
   const HomeComponent = () => <Home />;
-  const UserHomeComponent = () => <UserHomePage />;
   return (
     <Provider store={store}>
       <Router>
         <div>
           <Route path="/session/:id" component={SingleSessionPage} />
-          <Route exact path="/home" render={UserHomeComponent} />
+          <Route exact path="/home" component={UserHomePage} />
           <Route exact path="/" render={HomeComponent} />
         </div>
       </Router>

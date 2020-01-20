@@ -20,8 +20,8 @@ class Home extends Component {
         <h1 className="title"> Boulder Tracker </h1>
         <p className="subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vestibulum eleifend nisl ac tincidunt. Proin congue et nisi ut placerat. Suspendisse ornare nulla risus, sed pharetra nulla rutrum sit amet.</p>
         <div className="centered">
-          <Button shape="long">Login</Button>
-          <Button shape="long">Signup</Button>
+          <Button shape="long" to="/login">Login</Button>
+          <Button shape="long" to="/signup">Signup</Button>
         </div>
       </div>
     );

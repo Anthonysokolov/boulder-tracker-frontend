@@ -14,21 +14,17 @@ class UserHomePage extends Component {
   }
 
   render() {
-    console.log("yes", this.props.sessions);
     let sessions = this.props.sessions;
     if (sessions === undefined) {
       sessions = [];
     }
 
-    console.log("sess", sessions);
     return (
       <div>
         <Navbar />
-        <div className="centered">
-          {sessions.map(session => {
-            return <SessionCard {...session} />;
-          })}
-        </div>
+        {sessions.map((session, index) => {
+          return <SessionCard {...session} key={session.id} index={index + 1} />;
+        })}
       </div>
     );
   }
