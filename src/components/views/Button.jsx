@@ -1,10 +1,10 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import "../../styles/button.css";
 
 /*
-  Usage: <Button shape="" onClick={function}>text</Button>
-  Where shape is one of: long, circle
-  All props are optional
+  Usage: <Button shape="" to="location">text</Button>
+  Where shape is one of: long (default), circle
  */
 function Button(props) {
   var extraClasses = "";
@@ -12,7 +12,7 @@ function Button(props) {
     extraClasses += " button-long";
   }
   return (
-    <a className={"button" + extraClasses} onClick={props.onClick}>{props.children}</a>
+    <NavLink className={"button" + extraClasses} to={props.to}>{props.children}</NavLink>
   );
 }
 

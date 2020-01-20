@@ -9,10 +9,17 @@ ul{
 li{
     float:left;
     display: block;
-    color: white;
     text-align: center;
     padding: 14px 16px;
+}
+
+li * {
+    color: white;
     text-decoration: none;
+}
+
+.active {
+  color: #DE7C5A;
 }
 
 li:hover:not(.active) {

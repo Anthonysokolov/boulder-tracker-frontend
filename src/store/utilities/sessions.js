@@ -1,9 +1,9 @@
 import axios from "axios";
-import { promiseTimeout } from "./index.js";
 
 /********************************* ACTIONS ***********************************/
 
 const FETCH_SESSIONS = "FETCH_SESSIONS";
+const CREATE_SESSION = "CREATE_SESSION";
 
 function fetchAction(data) {
 	return {
@@ -19,12 +19,15 @@ function fetchAction(data) {
 	};
 }
 
+function createAction(data) {
+	return {
+		type: CREATE_SESSION,
+		payload: data
+	};
+}
+
 /********************************* THUNKS ***********************************/
 
-var hardCoded = [
-	{location: "Mountains R Us", date: "1/18/2020", time: "18:54:00", comments: "Went out with friends", id: 0},
-	{location: "The Rock", date: "1/20/2020", time: "20:30:15", comments: "Solo adventure", id: 1}
-];
 /**
  * This will be used by frontend components to update the list of sessions
  * in the store. Does not take any parameters because it just accesses database
@@ -32,10 +35,25 @@ var hardCoded = [
 */
 export function fetchSessionsThunk() {
 	return function(dispatch) {
-		axios.get("/api/users/1")
+		axios.get("/api/users/1/sessions")
 		.then(function(response) {
-			console.log(response);
-			dispatch(fetchAction(response.data.sessions));
+			dispatch(fetchAction(response.data));
+		})
+		.catch(function(response) {
+			console.log("Error from axios:", response);
+		})
+	}
+}
+
+/** 
+ * @param session  an object with two strings: location and comments.
+*/
+export function createSessionThunk(session) {
+	return function(dispatch) {
+		axios.post("/api/sessions/add", session)
+		.then(function(response) {
+			console.log("added", response);
+			dispatch(createAction(response.data));
 		})
 		.catch(function(response) {
 			console.log("Error from axios:", response);
@@ -50,6 +68,8 @@ export default function sessionsReducer(state = initialState, action) {
 	switch(action.type) {
 		case FETCH_SESSIONS:
 			return action.payload;
+		case CREATE_SESSION:
+			return state.concat(action.payload);
 		default:
 			return state;
 	}

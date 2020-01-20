@@ -13,6 +13,7 @@ function App() {
   const HomeComponent = () => <Home />;
   const UserHomeComponent = () => <UserHomePage />;
   const AddSessionComponent = () => <AddSessionPage />;
+
   return (
     <Provider store={store}>
       <Router>
