@@ -23,13 +23,13 @@ class UserHomePage extends Component {
     return (
       <div>
         <Navbar />
-        <h1 class="centered">My Bouldering Sessions</h1>
+        <h1 className="centered">My Bouldering Sessions</h1>
         {(sessions.length > 0) ? 
-          (<p class="card-subtitle centered">You have recorded {sessions.length} climbing adventures. You're making great progress.</p>) 
+          (<p className="card-subtitle centered">You have recorded {sessions.length} climbing adventures. You're making great progress.</p>) 
           : 
-          (<p class="card-subtitle centered">Welcome! Every time you go bouldering, you can record it by clicking on the add button!</p>)
+          (<p className="card-subtitle centered">Welcome! Every time you go bouldering, you can record it by clicking on the add button!</p>)
         }
-        <div class="centered"><Button to="/session/add">Add</Button></div>
+        <div className="centered"><Button to="/session/add">Add</Button></div>
         {sessions.map((session, index) => {
           return <SessionCard {...session} key={session.id} index={index + 1} />;
         })}
