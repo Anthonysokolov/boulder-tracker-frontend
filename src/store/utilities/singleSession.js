@@ -71,18 +71,16 @@ export function getSessionThunk(id) {
   };
 }
 
-export function addClimbThunk(id) {
+export function addClimbThunk(climbInfo) {
   return function(dispatch) {
     axios
-      .post("/api/problem/add")
+      .post("/api/problem/add", climbInfo)
       .then(function(response) {
-        console.log("api: ", response);
-        response.data.exists = true;
+        console.log("added climb: ", response);
         dispatch(addProblem(response.data));
       })
-      .catch(function() {
-        nonexistantProblem.id = id;
-        dispatch(selectAction(nonexistantProblem));
+      .catch(function(error) {
+        console.log("axios error: ", error);
       });
   };
 }
