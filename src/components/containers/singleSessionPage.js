@@ -38,7 +38,7 @@ class SingleSessionPage extends Component {
 
   handleSubmit = ele => {
     let newClimb = {
-      index: this.props.session.problems.length,
+      index: this.props.problems.length,
       name: this.state.name,
       grade: this.state.grade,
       attempts: 5,
@@ -50,11 +50,20 @@ class SingleSessionPage extends Component {
   };
 
   render() {
+    //before the data is fetched, use an empty list
+    let problems = this.props.problems || [];
     return (
       <div>
         <Navbar />
         <Session {...this.props.session} />
-        <ClimbCard />
+        <h2 className="centered">Problems</h2>
+        {
+          (problems.length === 0) &&
+          (<p>Looks like you have not recorded any problem attempts yet. Add one by filling out the fields below.</p>) 
+        }
+        {problems.map((climb) => (
+          <ClimbCard {...climb} key={climb.id} />
+        ))}
         <AddClimbCard
           nameHandler={this.handleChangeName}
           gradeHandler={this.handleChangeGrade}
@@ -68,7 +77,8 @@ class SingleSessionPage extends Component {
 
 function mapState(state) {
   return {
-    session: state.singleSession
+    session: state.singleSession,
+    problems: state.singleSession.problems
   };
 }
 

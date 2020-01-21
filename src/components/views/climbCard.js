@@ -9,9 +9,11 @@ export default function ClimbCard(props) {
     <div>
       <div className="card">
         <div className="card-body">
-          <h5 className="card-title"> name </h5>
-          <h6 className="card-subtitle"> yes </h6>
-          <p className="card-text"> no </p>
+          <h5 className="card-title"> {props.name} </h5>
+          <h6 className="card-subtitle">Comments</h6>
+          <p className="card-text"> Comments: {props.comments} </p>
+          <hr />
+          <p className="card-text"> Grade: {props.grade}, Sends: {props.sends} / {props.attempts}</p>
         </div>
       </div>
     </div>
