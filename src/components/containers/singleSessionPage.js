@@ -38,11 +38,14 @@ class SingleSessionPage extends Component {
 
   handleSubmit = ele => {
     let newClimb = {
+      index: this.props.session.problems.length,
       name: this.state.name,
       grade: this.state.grade,
-      comment: this.state.comment
+      attempts: 5,
+      sends: 2,
+      comments: this.state.comment,
+      sessionId: this.props.session.id
     };
-    console.log(newClimb);
     this.props.addClimb(newClimb);
   };
 
