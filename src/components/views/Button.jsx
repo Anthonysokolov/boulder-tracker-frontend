@@ -7,12 +7,9 @@ import "../../styles/button.css";
   Where shape is one of: long (default), circle
  */
 function Button(props) {
-  var extraClasses = "";
-  if(props.shape != undefined) {
-    extraClasses += " button-long";
-  }
+  var extraClasses = "button-" + (props.shape || "long");
   return (
-    <NavLink className={"button" + extraClasses} to={props.to}>{props.children}</NavLink>
+    <NavLink className={"button " + extraClasses} to={props.to}>{props.children}</NavLink>
   );
 }
 
