@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Navbar from "./navbar";
 import Session from "../views/sessionPage.js";
+import Button from "../views/Button.jsx";
 
 import { createSessionThunk } from "../../thunks";
 import { connect } from "react-redux";
@@ -29,7 +30,7 @@ class AddSessionPage extends Component {
   handleSubmit = ele => {
     let newSession = {
       location: this.state.location,
-      comment: this.state.comment
+      comments: this.state.comment
     };
     console.log(newSession);
     this.props.createSession(newSession);
@@ -39,11 +40,12 @@ class AddSessionPage extends Component {
     return (
       <div>
         <Navbar />
+        <h1 class="centered">New Session</h1>
         Location: <input type="text" onChange={this.handleChangeLocation} />
         <br />
         Comment: <input type="text" onChange={this.handleChangeComment} />
         <br />
-        <input type="submit" onClick={this.handleSubmit} />
+        <Button onClick={this.handleSubmit}>Save</Button>
       </div>
     );
   }
