@@ -3,6 +3,7 @@ import Navbar from "./navbar";
 import Session from "../views/sessionPage.js";
 import ClimbCard from "../views/climbCard.js";
 import AddClimbCard from "../views/addClimbCard.js";
+import Status from "../views/Status.jsx";
 
 import { getSessionThunk, addClimbThunk } from "../../thunks";
 import { connect } from "react-redux";
@@ -52,10 +53,12 @@ class SingleSessionPage extends Component {
   render() {
     //before the data is fetched, use an empty list
     let problems = this.props.problems || [];
+    console.log(this.props.statusClass + " " + this.props.statusMessage);
     return (
       <div>
         <Navbar />
         <Session {...this.props.session} />
+        <Status type={this.props.statusClass}>LOL{this.props.statusMessage}</Status>
         <h2 className="centered">Problems</h2>
         {
           (problems.length === 0) &&
@@ -77,6 +80,8 @@ class SingleSessionPage extends Component {
 
 function mapState(state) {
   return {
+    statusClass: state.status,
+    statusMessage: state.message,
     session: state.singleSession,
     problems: state.singleSession.problems
   };

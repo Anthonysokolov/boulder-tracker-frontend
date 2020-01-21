@@ -4,6 +4,10 @@ import axios from "axios";
 
 const SELECT_SESSION = "SELECT_SESSION";
 const ADD_CLIMB = "ADD_CLIMB";
+const SET_ERROR = "SET_ERROR";
+const LOADING = "loading";
+const ERROR = "error";
+const SUCCESS = "success";
 
 /**
  * Expects an object with the following shape:
@@ -21,6 +25,14 @@ function addProblem(problem) {
   return {
     type: ADD_CLIMB,
     payload: problem
+  };
+}
+
+function setStatus(status, message) {
+  return {
+    type: SET_ERROR,
+    status: status,
+    message: message
   };
 }
 
@@ -56,17 +68,17 @@ const nonexistantProblem = {
  */
 export function getSessionThunk(id) {
   return function(dispatch) {
+    dispatch(setStatus(LOADING, "Loading..."));
     axios
       .get("/api/sessions/" + id)
       .then(function(response) {
-        console.log("api: ", response);
-        //this will be the data received from the response
-        response.data.exists = true;
+        dispatch(setStatus(SUCCESS, "Received session"));
         dispatch(selectAction(response.data));
       })
       .catch(function() {
-        nonexistantSession.id = id;
-        dispatch(selectAction(nonexistantSession));
+        // nonexistantSession.id = id;
+        // dispatch(selectAction(nonexistantSession));
+        dispatch(setStatus(ERROR, "This session was not found. Perhaps it was deleted, or you followed a broken link."));
       });
   };
 }
@@ -95,6 +107,11 @@ export default function singleSessionReducer(state = initialState, action) {
     case ADD_CLIMB:
       return Object.assign({}, state, {
         problems: state.problems.concat(action.payload)
+      });
+    case SET_ERROR:
+      return Object.assign({}, state, {
+        status: action.status,
+        message: action.message
       });
     default:
       return state;
