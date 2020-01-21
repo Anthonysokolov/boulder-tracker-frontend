@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Navbar from "./navbar";
 import Session from "../views/sessionPage.js";
+import Button from "../views/Button.jsx";
 
 import { createSessionThunk } from "../../thunks";
 import { connect } from "react-redux";
@@ -43,7 +44,7 @@ class AddSessionPage extends Component {
         <br />
         Comment: <input type="text" onChange={this.handleChangeComment} />
         <br />
-        <input type="submit" onClick={this.handleSubmit} />
+        <Button onClick={this.handleSubmit}>Save</Button>
       </div>
     );
   }
