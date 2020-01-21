@@ -40,6 +40,7 @@ class AddSessionPage extends Component {
     return (
       <div>
         <Navbar />
+        <h1 class="centered">New Session</h1>
         Location: <input type="text" onChange={this.handleChangeLocation} />
         <br />
         Comment: <input type="text" onChange={this.handleChangeComment} />
