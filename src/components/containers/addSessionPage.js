@@ -29,7 +29,7 @@ class AddSessionPage extends Component {
   handleSubmit = ele => {
     let newSession = {
       location: this.state.location,
-      comment: this.state.comment
+      comments: this.state.comment
     };
     console.log(newSession);
     this.props.createSession(newSession);
