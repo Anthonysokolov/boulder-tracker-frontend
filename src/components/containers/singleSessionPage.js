@@ -65,8 +65,7 @@ class SingleSessionPage extends Component {
 
 function mapState(state) {
   return {
-    session: state.singleSession,
-    climb: state.singleClimb
+    session: state.singleSession
   };
 }
 
