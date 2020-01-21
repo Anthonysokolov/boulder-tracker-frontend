@@ -12,17 +12,16 @@ import AddSessionPage from "./components/containers/addSessionPage";
 function App() {
   const HomeComponent = () => <Home />;
   const UserHomeComponent = () => <UserHomePage />;
-  const AddSessionComponent = () => <AddSessionPage />;
 
   return (
     <Provider store={store}>
       <Router>
-        <div>
+        <Switch>
+          <Route exact path="/session/add" component={AddSessionPage} />
           <Route path="/session/:id" component={SingleSessionPage} />
           <Route exact path="/home" render={UserHomeComponent} />
-          <Route exact path="/addSession" render={AddSessionComponent} />
           <Route exact path="/" render={HomeComponent} />
-        </div>
+        </Switch>
       </Router>
     </Provider>
   );
