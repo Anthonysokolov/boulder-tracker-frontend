@@ -74,7 +74,7 @@ export function getSessionThunk(id) {
 export function addClimbThunk(climbInfo) {
   return function(dispatch) {
     axios
-      .post("/api/problem/add", climbInfo)
+      .post("/api/problems/add", climbInfo)
       .then(function(response) {
         console.log("added climb: ", response);
         dispatch(addProblem(response.data));
