@@ -72,8 +72,8 @@ export function getSessionThunk(id) {
     axios
       .get("/api/sessions/" + id)
       .then(function(response) {
-        dispatch(setStatus(SUCCESS, "Received session"));
         dispatch(selectAction(response.data));
+        dispatch(setStatus(SUCCESS, "Received session"));
       })
       .catch(function() {
         // nonexistantSession.id = id;
