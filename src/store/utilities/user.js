@@ -29,7 +29,7 @@ export function loginThunk() {
 export const auth = (email, password, method) => async dispatch => {
   let res;
   try {
-    res = await axios.post(`http://localhost:1234/auth/${method}`, { email, password }, { withCredentials: true });
+    res = await axios.post(`/auth/${method}`, { username:email, password }, { withCredentials: true });
   }
   catch (authError) {
     return dispatch(getUser({ error: authError }));

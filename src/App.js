@@ -23,6 +23,7 @@ function App() {
           <Route exact path="/home" render={UserHomeComponent} />
           <Route exact path="/" render={HomeComponent} />
           <Route exact path='/login' component={Login}/>
+          <Route exact path='/signup' component={Signup}/>
         </Switch>
       </Router>
     </Provider>
