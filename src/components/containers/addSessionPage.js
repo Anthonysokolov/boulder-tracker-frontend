@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Navbar from "./navbar";
-import Session from "../views/sessionPage.js";
 import Button from "../views/Button.jsx";
 
 import { createSessionThunk } from "../../thunks";
