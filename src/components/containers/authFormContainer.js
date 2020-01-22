@@ -26,13 +26,13 @@ class AuthFormContainer extends Component {
   render() {
     return (
       <AuthFormView
-        name="NAME"/*{this.props.name}*/
-        displayName="DISPLAY"/*{this.props.displayName}*/
-        error={false}/*{this.props.error}*/
+        name={this.props.name}
+        displayName={this.props.displayName}
+        error={this.props.error}
         handleChange={this.handleChange}
         handleSubmit={this.handleSubmit}
-        isLoggedIn={false}/*{this.props.isLoggedIn}*/
-        userEmail="EMAIL"/*{this.props.userEmail}*/
+        isLoggedIn={this.props.isLoggedIn}
+        userEmail={this.props.userEmail}
       />
     );
   }
