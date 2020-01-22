@@ -4,6 +4,10 @@ import axios from "axios";
 
 const FETCH_SESSIONS = "FETCH_SESSIONS";
 const CREATE_SESSION = "CREATE_SESSION";
+const SET_ERROR = "SET_ERROR";
+const LOADING = "loading";
+const ERROR = "error";
+const SUCCESS = "success";
 
 function fetchAction(data) {
   return {
@@ -26,6 +30,15 @@ function createAction(data) {
   };
 }
 
+function setStatus(status, message) {
+  console.log("setting status");
+  return {
+    type: SET_ERROR,
+    status: status,
+    message: message
+  };
+}
+
 /********************************* THUNKS ***********************************/
 
 /**
@@ -35,13 +48,16 @@ function createAction(data) {
  */
 export function fetchSessionsThunk() {
   return function(dispatch) {
+    dispatch(setStatus(LOADING, "Loading past sessions..."));
     axios
       .get("/api/users/1/sessions")
       .then(function(response) {
         dispatch(fetchAction(response.data));
+        dispatch(setStatus(SUCCESS, "Fetched data."));
       })
       .catch(function(response) {
         console.log("Error from axios:", response);
+        dispatch(setStatus(ERROR, "Could not load user data. Please make sure you are logged in."))
       });
   };
 }
@@ -51,27 +67,39 @@ export function fetchSessionsThunk() {
  */
 export function createSessionThunk(session) {
   return function(dispatch) {
+    dispatch(setStatus(LOADING, "Saving new session..."));
     axios
       .post("/api/sessions/add", session)
       .then(function(response) {
         console.log("added", response);
+        dispatch(setStatus(SUCCESS, "Saved"));
         dispatch(createAction(response.data));
       })
       .catch(function(response) {
         console.log("Error from axios:", response);
+        dispatch(setStatus(ERROR, "Could not save new bouldering session. Please make sure you are logged in."))
       });
   };
 }
 
 /********************************* REDUCER ***********************************/
-const initialState = [];
+const initialState = {status: "", message: "", list: []};
 
 export default function sessionsReducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_SESSIONS:
-      return action.payload;
+      return Object.assign({}, state, {
+        list: action.payload
+      });
     case CREATE_SESSION:
-      return state.concat(action.payload);
+      return Object.assign({}, state, {
+        list: state.list.concat(action.payload)
+      });
+    case SET_ERROR:
+      return Object.assign({}, state, {
+        status: action.status,
+        message: action.message
+      });
     default:
       return state;
   }
