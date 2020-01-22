@@ -1,11 +1,22 @@
 import { promiseTimeout } from "./index.js";
+const axios = require('axios')
 
 /********************************* ACTIONS ***********************************/
+const GET_USER = "GET_USER";
+const REMOVE_USER = "REMOVE_USER";
+
+// ACTION CREATORS
+const getUser = user => {
+  return {
+    type: GET_USER,
+    payload: user
+  }
+}
 
 /********************************* THUNKS ***********************************/
 
 /**
- * Just a template function, will be replaced by something soon. 
+ * Just a template function, will be replaced by something soon.
 */
 export function loginThunk() {
 	return function(dispatch) {
@@ -13,6 +24,23 @@ export function loginThunk() {
 			//dispatch(some action here);
 		})
 	}
+}
+
+export const auth = (email, password, method) => async dispatch => {
+  let res;
+  try {
+    res = await axios.post(`http://localhost:5000/auth/${method}`, { email, password }, { withCredentials: true });
+  }
+  catch (authError) {
+    return dispatch(getUser({ error: authError }));
+  }
+
+  try {
+    dispatch(getUser(res.data));
+  }
+  catch (dispatchOrHistoryErr) {
+    console.error(dispatchOrHistoryErr);
+  }
 }
 
 /********************************* REDUCER ***********************************/
