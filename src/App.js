@@ -22,7 +22,7 @@ function App() {
           <Route path="/session/:id" component={SingleSessionPage} />
           <Route exact path="/home" render={UserHomeComponent} />
           <Route exact path="/" render={HomeComponent} />
-          <Route exact path='/login' render={Login}/>
+          <Route exact path='/login' component={Login}/>
         </Switch>
       </Router>
     </Provider>

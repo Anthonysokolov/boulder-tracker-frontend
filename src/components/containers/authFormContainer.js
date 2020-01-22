@@ -65,5 +65,6 @@ const mapDispatch = dispatch => {
     loginOrSignup: (email, password, formName) => dispatch(auth(email, password, formName))
   }
 };
+
 export const Login = connect(mapLogin, mapDispatch)(AuthFormContainer);
 export const Signup = connect(mapSignup, mapDispatch)(AuthFormContainer);
