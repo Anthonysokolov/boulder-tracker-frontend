@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import Navbar from "./navbar";
-import Session from "../views/sessionPage.js";
+import Session from "../views/sessionDetails.js";
 import ClimbCard from "../views/climbCard.js";
 import AddClimbCard from "../views/addClimbCard.js";
 import Status from "../views/Status.jsx";
@@ -57,22 +57,26 @@ class SingleSessionPage extends Component {
     return (
       <div>
         <Navbar />
-        <Session {...this.props.session} />
-        <Status type={this.props.statusClass}>LOL{this.props.statusMessage}</Status>
-        <h2 className="centered">Problems</h2>
-        {
-          (problems.length === 0) &&
-          (<p>Looks like you have not recorded any problem attempts yet. Add one by filling out the fields below.</p>) 
+        <Status type={this.props.statusClass} hideStatus="success">{this.props.statusMessage}</Status>
+        {(this.props.statusClass === "success") &&
+          <Fragment>
+            <Session {...this.props.session} />
+            <AddClimbCard
+              nameHandler={this.handleChangeName}
+              gradeHandler={this.handleChangeGrade}
+              commentHandler={this.handleChangeComment}
+              submitHandler={this.handleSubmit}
+            />
+            <h2 className="centered">Problems</h2>
+            {
+              (problems.length === 0) &&
+              (<p>Looks like you have not recorded any problem attempts yet. Add one by filling out the fields above.</p>) 
+            }
+            {problems.map((climb) => (
+              <ClimbCard {...climb} key={climb.id} />
+            ))}
+          </Fragment>
         }
-        {problems.map((climb) => (
-          <ClimbCard {...climb} key={climb.id} />
-        ))}
-        <AddClimbCard
-          nameHandler={this.handleChangeName}
-          gradeHandler={this.handleChangeGrade}
-          commentHandler={this.handleChangeComment}
-          submitHandler={this.handleSubmit}
-        />
       </div>
     );
   }
@@ -80,8 +84,8 @@ class SingleSessionPage extends Component {
 
 function mapState(state) {
   return {
-    statusClass: state.status,
-    statusMessage: state.message,
+    statusClass: state.singleSession.status,
+    statusMessage: state.singleSession.message,
     session: state.singleSession,
     problems: state.singleSession.problems
   };
