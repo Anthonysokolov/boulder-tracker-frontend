@@ -15,7 +15,9 @@ class SingleSessionPage extends Component {
     this.state = {
       name: "",
       grade: "",
-      comment: ""
+      comment: "",
+      sends: 0,
+      attempts: 0
     };
   }
 
@@ -37,13 +39,25 @@ class SingleSessionPage extends Component {
     });
   };
 
+  handleChangeNumSends = ele => {
+    this.setState({
+      sends: ele.target.value
+    });
+  };
+  
+  handleChangeNumAttempts = ele => {
+    this.setState({
+      attempts: ele.target.value
+    });
+  };
+
   handleSubmit = ele => {
     let newClimb = {
       index: this.props.problems.length,
       name: this.state.name,
       grade: this.state.grade,
-      attempts: 5,
-      sends: 2,
+      attempts: this.state.attempts,
+      sends: this.state.sends,
       comments: this.state.comment,
       sessionId: this.props.session.id
     };
@@ -64,6 +78,8 @@ class SingleSessionPage extends Component {
             gradeHandler={this.handleChangeGrade}
             commentHandler={this.handleChangeComment}
             submitHandler={this.handleSubmit}
+            attemptsHandler={this.handleChangeNumAttempts}
+            sendsHandler={this.handleChangeNumSends}
           />
           <h2 className="centered">Problems</h2>
           {
