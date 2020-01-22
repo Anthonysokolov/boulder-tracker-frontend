@@ -57,26 +57,23 @@ class SingleSessionPage extends Component {
     return (
       <div>
         <Navbar />
-        <Status type={this.props.statusClass} hideStatus="success">{this.props.statusMessage}</Status>
-        {(this.props.statusClass === "success") &&
-          <Fragment>
-            <Session {...this.props.session} />
-            <AddClimbCard
-              nameHandler={this.handleChangeName}
-              gradeHandler={this.handleChangeGrade}
-              commentHandler={this.handleChangeComment}
-              submitHandler={this.handleSubmit}
-            />
-            <h2 className="centered">Problems</h2>
-            {
-              (problems.length === 0) &&
-              (<p>Looks like you have not recorded any problem attempts yet. Add one by filling out the fields above.</p>) 
-            }
-            {problems.map((climb) => (
-              <ClimbCard {...climb} key={climb.id} />
-            ))}
-          </Fragment>
-        }
+        <Status type={this.props.statusClass} hideStatus="success" text={this.props.statusMessage}>
+          <Session {...this.props.session} />
+          <AddClimbCard
+            nameHandler={this.handleChangeName}
+            gradeHandler={this.handleChangeGrade}
+            commentHandler={this.handleChangeComment}
+            submitHandler={this.handleSubmit}
+          />
+          <h2 className="centered">Problems</h2>
+          {
+            (problems.length === 0) &&
+            (<p>Looks like you have not recorded any problem attempts yet. Add one by filling out the fields above.</p>) 
+          }
+          {problems.map((climb) => (
+            <ClimbCard {...climb} key={climb.id} />
+          ))}
+        </Status>
       </div>
     );
   }
