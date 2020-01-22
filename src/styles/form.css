@@ -82,6 +82,7 @@ textarea.form-control {
 	padding-right: 15px;
 }
 
+/* If the screen is really small, display columns as rows. Otheriwse, squish them together with flexbox */
 @media (min-width: 576px) {
 	.col {
 		-ms-flex-preferred-size: 0;
