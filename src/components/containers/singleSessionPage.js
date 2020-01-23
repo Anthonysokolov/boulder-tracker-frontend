@@ -37,7 +37,7 @@ class SingleSessionPage extends Component {
         },
         {
           model_name: "V3",
-          field1: 98,
+          field1: 40,
           field2: 43
         }
       ],
@@ -120,7 +120,7 @@ class SingleSessionPage extends Component {
           />
           <h2 className="centered">Problems</h2>
           {problems.length === 0 && (
-            <p>
+            <p className="centered">
               Looks like you have not recorded any problem attempts yet. Add one
               by filling out the fields above.
             </p>
