@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import Navbar from "./navbar";
 import Button from "../views/Button.jsx";
+import { FormBase, FormField, FormRow } from "./../views/Form.jsx";
 
 import { createSessionThunk } from "../../thunks";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom"
+import { Redirect } from "react-router-dom";
 
 class AddSessionPage extends Component {
   constructor(props) {
@@ -29,7 +30,7 @@ class AddSessionPage extends Component {
   };
 
   handleSubmit = ele => {
-    this.setState({redirect:true})
+    this.setState({ redirect: true });
     let newSession = {
       location: this.state.location,
       comments: this.state.comment
@@ -39,18 +40,32 @@ class AddSessionPage extends Component {
   };
 
   render() {
-    if(this.state.redirect){
-      return (<Redirect to='/home'/>)
+    if (this.state.redirect) {
+      return <Redirect to="/home" />;
     }
     return (
       <div>
         <Navbar />
-        <h1 class="centered">New Session</h1>
-        Location: <input type="text" onChange={this.handleChangeLocation} />
-        <br />
-        Comment: <input type="text" onChange={this.handleChangeComment} />
-        <br />
-        <Button onClick={this.handleSubmit}>Save</Button>
+        <div>
+          <FormBase
+            button="Save"
+            title="New Session"
+            onSubmit={this.handleSubmit}
+          >
+            <FormField
+              type="text"
+              name="location"
+              handler={this.handleChangeLocation}
+              label="Location"
+            />
+            <FormField
+              type="text"
+              name="comment"
+              handler={this.handleChangeComment}
+              label="Comment"
+            />
+          </FormBase>
+        </div>
       </div>
     );
   }
