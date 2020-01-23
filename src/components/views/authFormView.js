@@ -1,29 +1,33 @@
 import React from "react";
+import { FormBase, FormField, FormRow } from "./Form.jsx";
 
 const AuthFormView = props => {
-  const { name, displayName, handleSubmit, error, handleChange, isLoggedIn, userEmail } = props;
+  const {
+    name,
+    displayName,
+    handleSubmit,
+    error,
+    handleChange,
+    isLoggedIn,
+    userEmail
+  } = props;
 
   return (
     <div>
-      {isLoggedIn ? `The current logged in user is: ${userEmail}` : ""}
-      <form onSubmit={handleSubmit} name={name}>
-        <div>
-          <label htmlFor="email">
-            <small>Email</small>
-          </label>
-          <input name="email" type="text" onChange={handleChange} />
-        </div>
-        <div>
-          <label htmlFor="password">
-            <small>Password</small>
-          </label>
-          <input name="password" type="password" onChange={handleChange} />
-        </div>
-        <div>
-          <button type="submit">{displayName}</button>
-        </div>
-        {error && error.response && <div> {error.response.data} </div>}
-      </form>
+      <FormBase button="Filler" title="Filler" onSubmit={props.submitHandler}>
+        <FormField
+          type="text"
+          name="name"
+          handler={props.usernameHandler}
+          label="Username"
+        />
+        <FormField
+          type="text"
+          name="password"
+          handler={props.passwordHandler}
+          label="Password"
+        />
+      </FormBase>
     </div>
   );
 };
