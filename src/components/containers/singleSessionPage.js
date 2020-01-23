@@ -6,41 +6,22 @@ import AddClimbCard from "../views/addClimbCard.js";
 import BarChart from "./BarChart.js";
 import Status from "../views/Status.jsx";
 
-import { getSessionThunk, addClimbThunk } from "../../thunks";
+import { getSessionThunk, getProblemsThunk, addClimbThunk } from "../../thunks";
 import { connect } from "react-redux";
 
 class SingleSessionPage extends Component {
   constructor(props) {
     super(props);
+    console.log("id", this.props.match.params.id);
     this.props.getSession(this.props.match.params.id);
+    this.props.getProblems(this.props.match.params.id);
     this.state = {
       name: "",
       grade: "",
       comment: "",
       sends: 0,
       attempts: 0,
-      data: [
-        {
-          model_name: "V0",
-          field1: 19,
-          field2: 83
-        },
-        {
-          model_name: "V1",
-          field1: 67,
-          field2: 93
-        },
-        {
-          model_name: "V2",
-          field1: 10,
-          field2: 56
-        },
-        {
-          model_name: "V3",
-          field1: 40,
-          field2: 43
-        }
-      ],
+      data: [],
       width: 700,
       height: 500
     };
@@ -93,6 +74,8 @@ class SingleSessionPage extends Component {
     //before the data is fetched, use an empty list
     let problems = this.props.problems || [];
     console.log(this.props.statusClass + " " + this.props.statusMessage);
+    let chart = console.log("data:", this.props.data);
+    let barChartId = Math.random();
     return (
       <div>
         <Navbar />
@@ -102,14 +85,21 @@ class SingleSessionPage extends Component {
           text={this.props.statusMessage}
         >
           <Session {...this.props.session} />
-          <div className="centered">
-            <h2> </h2>
-            <BarChart
-              data={this.state.data}
-              width={this.state.width}
-              height={this.state.height}
-            />
-          </div>
+          <Status
+            type={this.props.graphStatusClass}
+            hideStatus="success"
+            text={this.props.graphStatusMessage}
+          >
+            <div className="centered">
+              <h2> </h2>
+              <BarChart
+                data={this.props.data}
+                width={this.state.width}
+                height={this.state.height}
+                key={barChartId}
+              />
+            </div>
+          </Status>
           <AddClimbCard
             nameHandler={this.handleChangeName}
             gradeHandler={this.handleChangeGrade}
@@ -138,15 +128,19 @@ function mapState(state) {
   return {
     statusClass: state.singleSession.status,
     statusMessage: state.singleSession.message,
+    graphStatusClass: state.singleSession.graph_status,
+    graphStatusMessage: state.singleSession.graph_message,
     session: state.singleSession,
-    problems: state.singleSession.problems
+    problems: state.singleSession.problems,
+    data: state.singleSession.data
   };
 }
 
 function mapDispatch(dispatch) {
   return {
     getSession: id => dispatch(getSessionThunk(id)),
-    addClimb: id => dispatch(addClimbThunk(id))
+    addClimb: id => dispatch(addClimbThunk(id)),
+    getProblems: id => dispatch(getProblemsThunk(id))
   };
 }
 

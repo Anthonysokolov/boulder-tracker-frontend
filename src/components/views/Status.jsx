@@ -9,8 +9,8 @@ import "../../styles/status.css";
  * hideStatus  a string of space-separated types. If the supplied type matches
  *             one of these, then this component will not render.
  * Children:   any content to display below the status box if the status is
- *             success, and to hide otherwise. 
- *             Usage: <Status>child elements</Status> 
+ *             success, and to hide otherwise.
+ *             Usage: <Status>child elements</Status>
  *             If there are several, wrap them in a React.Fragment tag.
  */
 function Status(props) {
@@ -21,11 +21,13 @@ function Status(props) {
     loading: "\u24d8 "
   };
   let statusBox = (
-    <div className={"status status-"+kind+" status-long"}>
-      {symbols[kind]} {props.children}
+    <div className={"status status-" + kind + " status-long"}>
+      {symbols[kind]} {props.text}
     </div>
   );
-  let showStatusBox = !props.hasOwnProperty("hideStatus") || props.hideStatus.indexOf(props.type) === -1;
+  let showStatusBox =
+    !props.hasOwnProperty("hideStatus") ||
+    props.hideStatus.indexOf(props.type) === -1;
   return (
     <Fragment>
       {showStatusBox && statusBox}

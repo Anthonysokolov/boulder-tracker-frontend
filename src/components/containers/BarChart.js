@@ -21,6 +21,9 @@ class BarChart extends React.Component {
       barPadding = 0.2,
       axisTicks = { qty: 5, outerSize: 0 };
 
+    //try to delete first
+    d3.select("svg").remove();
+
     //select element that youre drawing on
     const svg = d3
       .select("h2")

@@ -3,10 +3,12 @@ import axios from "axios";
 /********************************* ACTIONS ***********************************/
 
 const SELECT_SESSION = "SELECT_SESSION";
+const GET_PROBLEMS = "GET_PROBLEMS";
 const ADD_CLIMB = "ADD_CLIMB";
 const SET_ERROR = "SET_ERROR";
 const LOADING = "loading";
 const ERROR = "error";
+const SET_GRAPH_ERROR = "set_graph_error";
 const SUCCESS = "success";
 
 /**
@@ -21,6 +23,13 @@ function selectAction(data) {
   };
 }
 
+function getProblems(data) {
+  return {
+    type: GET_PROBLEMS,
+    payload: data
+  };
+}
+
 function addProblem(problem) {
   return {
     type: ADD_CLIMB,
@@ -31,6 +40,14 @@ function addProblem(problem) {
 function setStatus(status, message) {
   return {
     type: SET_ERROR,
+    status: status,
+    message: message
+  };
+}
+
+function setGraphStatus(status, message) {
+  return {
+    type: SET_GRAPH_ERROR,
     status: status,
     message: message
   };
@@ -78,7 +95,33 @@ export function getSessionThunk(id) {
       .catch(function() {
         // nonexistantSession.id = id;
         // dispatch(selectAction(nonexistantSession));
-        dispatch(setStatus(ERROR, "This session was not found. Perhaps it was deleted, or you followed a broken link."));
+        dispatch(
+          setStatus(
+            ERROR,
+            "This session was not found. Perhaps it was deleted, or you followed a broken link."
+          )
+        );
+      });
+  };
+}
+
+export function getProblemsThunk(id) {
+  return function(dispatch) {
+    dispatch(setGraphStatus(LOADING, "Loading..."));
+    axios
+      .get("/api/sessions/graph/" + id)
+      .then(function(response) {
+        console.log("DATAAAA", response.data);
+        dispatch(getProblems(response.data));
+        dispatch(setGraphStatus(SUCCESS, "Received session"));
+      })
+      .catch(function() {
+        dispatch(
+          setGraphStatus(
+            ERROR,
+            "This session was not found. Perhaps it was deleted, or you followed a broken link."
+          )
+        );
       });
   };
 }
@@ -102,16 +145,33 @@ const initialState = {};
 
 export default function singleSessionReducer(state = initialState, action) {
   switch (action.type) {
+    case GET_PROBLEMS:
+      return Object.assign({}, state, { data: action.payload });
     case SELECT_SESSION:
       return Object.assign({}, state, action.payload);
     case ADD_CLIMB:
       return Object.assign({}, state, {
-        problems: state.problems.concat(action.payload)
+        problems: state.problems.concat(action.payload),
+        data: state.data.map(e => {
+          if (e.model_name == action.payload.grade) {
+            return Object.assign({}, e, {
+              field1: e.field1 + action.payload.sends,
+              field2: e.field2 + action.payload.attempts
+            });
+          } else {
+            return e;
+          }
+        })
       });
     case SET_ERROR:
       return Object.assign({}, state, {
         status: action.status,
         message: action.message
+      });
+    case SET_GRAPH_ERROR:
+      return Object.assign({}, state, {
+        graph_status: action.status,
+        graph_message: action.message
       });
     default:
       return state;
