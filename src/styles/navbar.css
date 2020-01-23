@@ -13,6 +13,10 @@ li{
     padding: 14px 16px;
 }
 
+li:first-child {
+  color: yellow;
+}
+
 li * {
     color: white;
     text-decoration: none;
