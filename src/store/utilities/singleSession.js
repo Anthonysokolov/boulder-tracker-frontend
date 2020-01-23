@@ -1,4 +1,5 @@
 import axios from "axios";
+import * as StatusCode from "./index.js";
 
 /********************************* ACTIONS ***********************************/
 
@@ -6,10 +7,7 @@ const SELECT_SESSION = "SELECT_SESSION";
 const GET_PROBLEMS = "GET_PROBLEMS";
 const ADD_CLIMB = "ADD_CLIMB";
 const SET_ERROR = "SET_ERROR";
-const LOADING = "loading";
-const ERROR = "error";
 const SET_GRAPH_ERROR = "set_graph_error";
-const SUCCESS = "success";
 
 /**
  * Expects an object with the following shape:
@@ -85,19 +83,17 @@ const nonexistantProblem = {
  */
 export function getSessionThunk(id) {
   return function(dispatch) {
-    dispatch(setStatus(LOADING, "Loading..."));
+    dispatch(setStatus(StatusCode.LOADING, "Loading..."));
     axios
       .get("/api/sessions/" + id)
       .then(function(response) {
         dispatch(selectAction(response.data));
-        dispatch(setStatus(SUCCESS, "Received session"));
+        dispatch(setStatus(StatusCode.SUCCESS, "Received session"));
       })
       .catch(function() {
-        // nonexistantSession.id = id;
-        // dispatch(selectAction(nonexistantSession));
         dispatch(
           setStatus(
-            ERROR,
+            StatusCode.ERROR,
             "This session was not found. Perhaps it was deleted, or you followed a broken link."
           )
         );
@@ -107,19 +103,19 @@ export function getSessionThunk(id) {
 
 export function getProblemsThunk(id) {
   return function(dispatch) {
-    dispatch(setGraphStatus(LOADING, "Loading..."));
+    dispatch(setGraphStatus(StatusCode.LOADING, "Loading chart..."));
     axios
       .get("/api/sessions/graph/" + id)
       .then(function(response) {
         console.log("DATAAAA", response.data);
         dispatch(getProblems(response.data));
-        dispatch(setGraphStatus(SUCCESS, "Received session"));
+        dispatch(setGraphStatus(StatusCode.SUCCESS, "Received statistics"));
       })
       .catch(function() {
         dispatch(
           setGraphStatus(
-            ERROR,
-            "This session was not found. Perhaps it was deleted, or you followed a broken link."
+            StatusCode.ERROR,
+            "Failed to create chart. Perhaps this workout session was deleted?"
           )
         );
       });

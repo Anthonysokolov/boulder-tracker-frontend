@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
+import { connect } from "react-redux";
 import "../../styles/navbar.css";
 
 class Navbar extends Component {
@@ -10,6 +11,7 @@ class Navbar extends Component {
     return (
       <div className="navbar">
         <ul>
+          <li>{this.props.username}</li>
           <li><NavLink to="/home"  >Home</NavLink></li>
           <li><NavLink to="/invite">Invite</NavLink></li>
           <li><NavLink to="/logout">Logout</NavLink></li>
@@ -19,4 +21,12 @@ class Navbar extends Component {
   }
 }
 
-export default Navbar;
+function mapUserToProps(state) {
+  return {
+    username: state.user.username,
+    status: state.user.status,
+    isLoggedIn: state.user.isLoggedIn
+  };
+}
+
+export default connect(mapUserToProps)(Navbar);

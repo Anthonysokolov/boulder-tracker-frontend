@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { auth } from "../../thunks";
+import { withRouter } from "react-router-dom";
+import { loginThunk } from "../../thunks";
 import AuthFormView from "../views/authFormView";
+import Status from "../views/Status.jsx";
+
+import "../../styles/common.css";
 
 // Smart container;
 class AuthFormContainer extends Component {
@@ -20,20 +24,26 @@ class AuthFormContainer extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     const formName = event.target.name;
-    this.props.loginOrSignup(this.state.email, this.state.password, formName);
+    this.props.loginOrSignup(this.state.email, this.state.password, this.props.history);
+    this.props.location.state = {};
   }
 
   render() {
+    let message = this.props.location.state;
     return (
-      <AuthFormView
-        name={this.props.name}
-        displayName={this.props.displayName}
-        error={this.props.error}
-        handleChange={this.handleChange}
-        handleSubmit={this.handleSubmit}
-        isLoggedIn={this.props.isLoggedIn}
-        userEmail={this.props.userEmail}
-      />
+      <div>
+        <h1 className="centered">Bouldering Tracker App</h1>
+        <Status type={message.loginStatus || this.props.statusCode} text={message.loginMessage || this.props.errorMessage} ></Status>
+        <AuthFormView
+          name={this.props.name}
+          displayName={this.props.displayName}
+          error={this.props.error}
+          handleChange={this.handleChange}
+          handleSubmit={this.handleSubmit}
+          isLoggedIn={this.props.isLoggedIn}
+          userEmail={this.props.username}
+        />
+      </div>
     );
   }
 };
@@ -43,9 +53,10 @@ const mapLogin = state => {
   return {
     name: "login",
     displayName: "Login",
-    error: state.user.error,
-    isLoggedIn: !!state.user.id,
-    userEmail: state.user.email
+    statusCode: state.user.status,
+    errorMessage: state.user.message,
+    isLoggedIn: state.user.isLoggedIn,
+    username: state.user.username
   };
 };
 
@@ -54,17 +65,18 @@ const mapSignup = state => {
   return {
     name: "signup",
     displayName: "Sign Up",
-    error: state.user.error,
-    isLoggedIn: !!state.user.id,
-    userEmail: state.user.email
+    statusCode: state.user.status,
+    errorMessage: state.user.message,
+    isLoggedIn: state.user.isLoggedIn,
+    username: state.user.username
   };
 };
 // Map dispatch to props;
 const mapDispatch = dispatch => {
   return {
-    loginOrSignup: (email, password, formName) => dispatch(auth(email, password, formName))
+    loginOrSignup: (email, password, history) => dispatch(loginThunk(email, password, history))
   }
 };
 
-export const Login = connect(mapLogin, mapDispatch)(AuthFormContainer);
-export const Signup = connect(mapSignup, mapDispatch)(AuthFormContainer);
+export const Login = withRouter(connect(mapLogin, mapDispatch)(AuthFormContainer));
+export const Signup = withRouter(connect(mapSignup, mapDispatch)(AuthFormContainer));
