@@ -14,26 +14,35 @@ class AuthFormContainer extends Component {
     this.state = {
       email: "",
       password: ""
-    }
+    };
   }
 
-  handleChange = (event) => {
+  handleChange = event => {
+    console.log(event.target.name, ":", event.target.value);
     this.setState({ [event.target.name]: event.target.value });
-  }
+  };
 
-  handleSubmit = (event) => {
+  handleSubmit = event => {
     event.preventDefault();
     const formName = event.target.name;
-    this.props.loginOrSignup(this.state.email, this.state.password, this.props.history);
+    this.props.loginOrSignup(
+      this.state.username,
+      this.state.password,
+      this.props.name,
+      this.props.history
+    );
     this.props.location.state = {};
-  }
+  };
 
   render() {
-    let message = this.props.location.state;
+    let message = this.props.location.state || {};
     return (
       <div>
         <h1 className="centered">Bouldering Tracker App</h1>
-        <Status type={message.loginStatus || this.props.statusCode} text={message.loginMessage || this.props.errorMessage} ></Status>
+        <Status
+          type={message.loginStatus || this.props.statusCode}
+          text={message.loginMessage || this.props.errorMessage}
+        ></Status>
         <AuthFormView
           name={this.props.name}
           displayName={this.props.displayName}
@@ -46,7 +55,7 @@ class AuthFormContainer extends Component {
       </div>
     );
   }
-};
+}
 
 // Map state to props;
 const mapLogin = state => {
@@ -71,12 +80,18 @@ const mapSignup = state => {
     username: state.user.username
   };
 };
+
 // Map dispatch to props;
 const mapDispatch = dispatch => {
   return {
-    loginOrSignup: (email, password, history) => dispatch(loginThunk(email, password, history))
-  }
+    loginOrSignup: (email, password, method, history) =>
+      dispatch(loginThunk(email, password, method, history))
+  };
 };
 
-export const Login = withRouter(connect(mapLogin, mapDispatch)(AuthFormContainer));
-export const Signup = withRouter(connect(mapSignup, mapDispatch)(AuthFormContainer));
+export const Login = withRouter(
+  connect(mapLogin, mapDispatch)(AuthFormContainer)
+);
+export const Signup = withRouter(
+  connect(mapSignup, mapDispatch)(AuthFormContainer)
+);

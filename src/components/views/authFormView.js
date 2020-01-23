@@ -14,17 +14,21 @@ const AuthFormView = props => {
 
   return (
     <div>
-      <FormBase button="Filler" title="Filler" onSubmit={props.submitHandler}>
+      <FormBase
+        button={props.displayName}
+        title={props.displayName}
+        onSubmit={props.handleSubmit}
+      >
         <FormField
           type="text"
-          name="name"
-          handler={props.usernameHandler}
+          name="username"
+          handler={props.handleChange}
           label="Username"
         />
         <FormField
           type="text"
           name="password"
-          handler={props.passwordHandler}
+          handler={props.handleChange}
           label="Password"
         />
       </FormBase>
