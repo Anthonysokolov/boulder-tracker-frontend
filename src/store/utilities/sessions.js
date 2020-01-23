@@ -1,14 +1,16 @@
 import axios from "axios";
+import * as StatusCode from "./index.js";
 
 /********************************* ACTIONS ***********************************/
 
 const FETCH_SESSIONS = "FETCH_SESSIONS";
 const CREATE_SESSION = "CREATE_SESSION";
 const SET_ERROR = "SET_ERROR";
-const LOADING = "loading";
-const ERROR = "error";
-const SUCCESS = "success";
 
+/** 
+ * This will make an action that will update the store with a list of workout 
+ * sessions.
+*/
 function fetchAction(data) {
   return {
     type: FETCH_SESSIONS,
@@ -23,6 +25,11 @@ function fetchAction(data) {
   };
 }
 
+/**
+ * This will make an action that can add a session to the list of sessions.
+ * Each session should have the following properties:
+ *    int id, string location, string date, string comments 
+*/
 function createAction(data) {
   return {
     type: CREATE_SESSION,
@@ -30,6 +37,12 @@ function createAction(data) {
   };
 }
 
+/**
+ * This will make an action that can update the status of this "slice" of the 
+ * Redux store.
+ * @param status   one of the constants from StatusCode (index.js)
+ * @param message  a string describing the error, presented to the user 
+*/
 function setStatus(status, message) {
   console.log("setting status");
   return {
@@ -48,16 +61,16 @@ function setStatus(status, message) {
  */
 export function fetchSessionsThunk() {
   return function(dispatch) {
-    dispatch(setStatus(LOADING, "Loading past sessions..."));
+    dispatch(setStatus(StatusCode.LOADING, "Loading past sessions..."));
     axios
       .get("/api/users/1/sessions")
       .then(function(response) {
         dispatch(fetchAction(response.data));
-        dispatch(setStatus(SUCCESS, "Fetched data."));
+        dispatch(setStatus(StatusCode.SUCCESS, "Fetched data."));
       })
       .catch(function(response) {
         console.log("Error from axios:", response);
-        dispatch(setStatus(ERROR, "Could not load user data. Please make sure you are logged in."))
+        dispatch(setStatus(StatusCode.ERROR, "Could not load user data. Please make sure you are logged in."))
       });
   };
 }
@@ -67,17 +80,17 @@ export function fetchSessionsThunk() {
  */
 export function createSessionThunk(session) {
   return function(dispatch) {
-    dispatch(setStatus(LOADING, "Saving new session..."));
+    dispatch(setStatus(StatusCode.LOADING, "Saving new session..."));
     axios
       .post("/api/sessions/add", session)
       .then(function(response) {
         console.log("added", response);
-        dispatch(setStatus(SUCCESS, "Saved"));
         dispatch(createAction(response.data));
+        dispatch(setStatus(StatusCode.SUCCESS, "Saved"));
       })
       .catch(function(response) {
         console.log("Error from axios:", response);
-        dispatch(setStatus(ERROR, "Could not save new bouldering session. Please make sure you are logged in."))
+        dispatch(setStatus(StatusCode.ERROR, "Could not save new bouldering session. Please make sure you are logged in."))
       });
   };
 }

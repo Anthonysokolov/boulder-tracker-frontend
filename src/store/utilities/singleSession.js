@@ -1,13 +1,11 @@
 import axios from "axios";
+import * as StatusCode from "./index.js";
 
 /********************************* ACTIONS ***********************************/
 
 const SELECT_SESSION = "SELECT_SESSION";
 const ADD_CLIMB = "ADD_CLIMB";
 const SET_ERROR = "SET_ERROR";
-const LOADING = "loading";
-const ERROR = "error";
-const SUCCESS = "success";
 
 /**
  * Expects an object with the following shape:
@@ -68,17 +66,17 @@ const nonexistantProblem = {
  */
 export function getSessionThunk(id) {
   return function(dispatch) {
-    dispatch(setStatus(LOADING, "Loading..."));
+    dispatch(setStatus(StatusCode.LOADING, "Loading..."));
     axios
       .get("/api/sessions/" + id)
       .then(function(response) {
         dispatch(selectAction(response.data));
-        dispatch(setStatus(SUCCESS, "Received session"));
+        dispatch(setStatus(StatusCode.SUCCESS, "Received session"));
       })
       .catch(function() {
         // nonexistantSession.id = id;
         // dispatch(selectAction(nonexistantSession));
-        dispatch(setStatus(ERROR, "This session was not found. Perhaps it was deleted, or you followed a broken link."));
+        dispatch(setStatus(StatusCode.ERROR, "This session was not found. Perhaps it was deleted, or you followed a broken link."));
       });
   };
 }
