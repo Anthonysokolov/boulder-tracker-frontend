@@ -9,17 +9,19 @@ class BarChart extends React.Component {
 
   drawChart() {
     var models = this.props.data;
-
+    /*
     models = models.map(i => {
       return i;
     });
-
+    */
+    //set needed variables
     const width = this.props.width,
       height = this.props.height,
       margin = { top: 30, right: 20, bottom: 30, left: 50 },
       barPadding = 0.2,
       axisTicks = { qty: 5, outerSize: 0 };
 
+    //select element that youre drawing on
     const svg = d3
       .select("h2")
       .append("svg")
@@ -28,6 +30,7 @@ class BarChart extends React.Component {
       .append("g")
       .attr("transform", `translate(${margin.left},${margin.top})`);
 
+    //create scales
     var xScale0 = d3
       .scaleBand()
       .range([0, width - margin.left - margin.right])
@@ -51,6 +54,19 @@ class BarChart extends React.Component {
       d3.max(models, d => (d.field1 > d.field2 ? d.field1 : d.field2))
     ]);
 
+    // Add the X Axis
+    svg
+      .append("g")
+      .attr("class", "x axis")
+      .attr("transform", `translate(0,${height - margin.top - margin.bottom})`)
+      .call(xAxis);
+
+    // Add the Y Axis
+    svg
+      .append("g")
+      .attr("class", "y axis")
+      .call(yAxis);
+
     var model_name = svg
       .selectAll(".model_name")
       .data(models)
@@ -59,7 +75,7 @@ class BarChart extends React.Component {
       .attr("class", "model_name")
       .attr("transform", d => `translate(${xScale0(d.model_name)},0)`);
 
-    /* Add field1 bars */
+    //Add the completed bar
     model_name
       .selectAll(".bar.field1")
       .data(d => [d])
@@ -74,33 +90,20 @@ class BarChart extends React.Component {
         return height - margin.top - margin.bottom - yScale(d.field1);
       });
 
-    /* Add field2 bars */
+    //Add the attempted bar
     model_name
       .selectAll(".bar.field2")
       .data(d => [d])
       .enter()
       .append("rect")
       .attr("class", "bar field2")
-      .style("fill", "red")
+      .style("fill", "pink")
       .attr("x", d => xScale1("field2"))
       .attr("y", d => yScale(d.field2))
       .attr("width", xScale1.bandwidth())
       .attr("height", d => {
         return height - margin.top - margin.bottom - yScale(d.field2);
       });
-
-    // Add the X Axis
-    svg
-      .append("g")
-      .attr("class", "x axis")
-      .attr("transform", `translate(0,${height - margin.top - margin.bottom})`)
-      .call(xAxis);
-
-    // Add the Y Axis
-    svg
-      .append("g")
-      .attr("class", "y axis")
-      .call(yAxis);
   }
 
   render() {
