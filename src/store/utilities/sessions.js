@@ -50,7 +50,7 @@ export function fetchSessionsThunk() {
   return function(dispatch) {
     dispatch(setStatus(LOADING, "Loading past sessions..."));
     axios
-      .get("/api/users/1/sessions")
+      .get("/api/sessions")
       .then(function(response) {
         dispatch(fetchAction(response.data));
         dispatch(setStatus(SUCCESS, "Fetched data."));
