@@ -14,15 +14,19 @@ import "../../styles/status.css";
  *             If there are several, wrap them in a React.Fragment tag.
  */
 function Status(props) {
-  let kind = props.type || "loading";
+  //if no status type is set, then don't render this component
+  if(!props.hasOwnProperty("type")) {
+    return null;
+  }
+  let kind = props.type;
   let symbols = {
     success: "\u2713 ",
-    error: "\u00d7 ",
+    error: "\u26a0 ",
     loading: "\u24d8 "
   };
   let statusBox = (
     <div className={"status status-"+kind+" status-long"}>
-      {symbols[kind]} {props.children}
+      <strong>{symbols[kind]}</strong> {props.text}
     </div>
   );
   let showStatusBox = !props.hasOwnProperty("hideStatus") || props.hideStatus.indexOf(props.type) === -1;
