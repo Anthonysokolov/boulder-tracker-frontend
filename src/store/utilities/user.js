@@ -37,25 +37,28 @@ function setStatus(statusCode, message) {
  * Just a template function, will be replaced by something soon.
 */
 export function loginThunk(email, password) {
-  return async dispatch => {
+  return function(dispatch) {
     dispatch(setStatus(StatusCode.LOADING, "Logging in..."));
-    let res;
-    try {
-      res = await axios.post("/auth/login", { username:email, password }, { withCredentials: true });
-      console.log("Response from logging in: ", res);
+    axios.post("/auth/login", { username:email, password }, { withCredentials: true })
+    .then(res => {
       dispatch(setStatus(StatusCode.SUCCESS, "Welcome Back!"));
-    }
-    catch (authError) {
-      dispatch(setStatus(StatusCode.ERROR, "Wrong username or password."));
-    }
+    })
+    .catch(authError => {
+      dispatch(setStatus(StatusCode.ERROR, authError.response.data));
+    });
   }
 }
 
 /********************************* REDUCER ***********************************/
-const initialState = {username: "", loggedIn: false};
+const initialState = {username: "", loggedIn: false, status: "", message: ""};
 
 export default function userReducer(state = initialState, action) {
 	switch(action.type) {
+    case SET_ERROR:
+      return Object.assign({}, state, {
+        status: action.status,
+        message: action.message
+      });
 		default:
 			return state;
 	}
