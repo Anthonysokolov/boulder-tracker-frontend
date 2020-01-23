@@ -18,7 +18,7 @@ export function FormBase(props) {
     <div className="form-container">
       <h2 className="form-title">{props.title}</h2>
       {props.children}
-      <div class="centered">
+      <div className="centered">
         <Button shape="long" onClick={props.onSubmit}>{props.button}</Button>
       </div>
     </div>
@@ -60,7 +60,7 @@ export function FormField(props) {
   }
   return (
     <div className="form-group">
-      <label for={props.name}>{props.label}</label>
+      <label htmlFor={props.name}>{props.label}</label>
       {formElement}
     </div>
   );
