@@ -5,7 +5,7 @@ const AuthFormView = props => {
 
   return (
     <div>
-      {isLoggedIn ? `The current logged in user is: ${userEmail}` : ""}
+      {isLoggedIn ? `The current logged in user is: ${userEmail}` : `Not logged in ${userEmail}`}
       <form onSubmit={handleSubmit} name={name}>
         <div>
           <label htmlFor="email">

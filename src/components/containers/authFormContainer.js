@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { auth } from "../../thunks";
+import { loginThunk } from "../../thunks";
 import AuthFormView from "../views/authFormView";
+import Status from "../views/Status.jsx";
 
 // Smart container;
 class AuthFormContainer extends Component {
@@ -25,15 +26,18 @@ class AuthFormContainer extends Component {
 
   render() {
     return (
-      <AuthFormView
-        name={this.props.name}
-        displayName={this.props.displayName}
-        error={this.props.error}
-        handleChange={this.handleChange}
-        handleSubmit={this.handleSubmit}
-        isLoggedIn={this.props.isLoggedIn}
-        userEmail={this.props.userEmail}
-      />
+      <div>
+        <Status type={this.props.statusCode} text={this.props.errorMessage} ></Status>
+        <AuthFormView
+          name={this.props.name}
+          displayName={this.props.displayName}
+          error={this.props.error}
+          handleChange={this.handleChange}
+          handleSubmit={this.handleSubmit}
+          isLoggedIn={this.props.isLoggedIn}
+          userEmail={this.props.username}
+        />
+      </div>
     );
   }
 };
@@ -43,9 +47,10 @@ const mapLogin = state => {
   return {
     name: "login",
     displayName: "Login",
-    error: state.user.error,
-    isLoggedIn: !!state.user.id,
-    userEmail: state.user.email
+    statusCode: state.user.status,
+    errorMessage: state.user.message,
+    isLoggedIn: state.user.isLoggedIn,
+    username: state.user.username
   };
 };
 
@@ -54,15 +59,16 @@ const mapSignup = state => {
   return {
     name: "signup",
     displayName: "Sign Up",
-    error: state.user.error,
-    isLoggedIn: !!state.user.id,
-    userEmail: state.user.email
+    statusCode: state.user.status,
+    errorMessage: state.user.message,
+    isLoggedIn: state.user.isLoggedIn,
+    username: state.user.username
   };
 };
 // Map dispatch to props;
 const mapDispatch = dispatch => {
   return {
-    loginOrSignup: (email, password, formName) => dispatch(auth(email, password, formName))
+    loginOrSignup: (email, password, formName) => dispatch(loginThunk(email, password, formName))
   }
 };
 
