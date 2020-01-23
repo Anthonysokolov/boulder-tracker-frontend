@@ -54,7 +54,7 @@ function setStatus(statusCode, message) {
  * @param password  (string) the password of the user
  * @post            the status will be updated to either success or error
 */
-export function loginThunk(username, password) {
+export function loginThunk(username, password, history) {
   return function(dispatch) {
     dispatch(setStatus(StatusCode.LOADING, "Logging in..."));
     axios.post("/auth/login", { username, password }, { withCredentials: true })
@@ -66,6 +66,7 @@ export function loginThunk(username, password) {
       .catch(error => {console.log("error")});
       dispatch(login(username));
       dispatch(setStatus(StatusCode.SUCCESS, "Welcome Back!"));
+      history.push("/home");
     })
     .catch(authError => {
       dispatch(setStatus(StatusCode.ERROR, authError.response.data));
