@@ -8,6 +8,12 @@ const REMOVE_USER = "REMOVE_USER";
 const SET_ERROR = "SET_ERROR";
 
 // ACTION CREATORS
+/**
+ * Makes an action that will let the frontend know that a user has logged in.
+ * This should only be called after the backend has authenticated this user
+ * and created a session.
+ * @param user  (string) the username 
+*/
 const login = user => {
   return {
     type: GET_USER,
@@ -53,6 +59,11 @@ export function loginThunk(username, password) {
     dispatch(setStatus(StatusCode.LOADING, "Logging in..."));
     axios.post("/auth/login", { username, password }, { withCredentials: true })
     .then(res => {
+      axios.get("/auth/me", { withCredentials: true })
+      .then(res => {
+        console.log("Response from /auth/me ", res);
+      })
+      .catch(error => {console.log("error")});
       dispatch(login(username));
       dispatch(setStatus(StatusCode.SUCCESS, "Welcome Back!"));
     })
