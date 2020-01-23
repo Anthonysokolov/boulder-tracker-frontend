@@ -4,22 +4,23 @@ import Button from "./Button.jsx";
 import "../../styles/common.css";
 import "../../styles/form.css";
 
-
 /**
  * This component should surround all FormFields
  * Props:
  * title     (string) displayed at the top of the form in a centered h2
  * button    (string) what text to display in the submit button
- * onSubmit  (function) what to do when the submit button is pressed 
+ * onSubmit  (function) what to do when the submit button is pressed
  * InnerHTML should just be FormFields
-*/
+ */
 export function FormBase(props) {
   return (
     <div className="form-container">
       <h2 className="form-title">{props.title}</h2>
       {props.children}
       <div className="centered">
-        <Button shape="long" onClick={props.onSubmit}>{props.button}</Button>
+        <Button shape="long" onClick={props.onSubmit}>
+          {props.button}
+        </Button>
       </div>
     </div>
   );
@@ -36,27 +37,58 @@ export function FormBase(props) {
  * required (boolean) used to make sure this isn't left empty
  * options  (array) if the type is select, then this will be choices presented
  *          to the user
-*/
+ */
 export function FormField(props) {
   let formElement;
-  switch(props.type) {
+  switch (props.type) {
     case "number":
-      formElement = <input className="form-control" type="number" id={props.name} onChange={props.handler} value={props.value} />
+      formElement = (
+        <input
+          className="form-control"
+          type="number"
+          id={props.name}
+          onChange={props.handler}
+          value={props.value}
+        />
+      );
       break;
     case "select":
       formElement = (
-        <select className="form-control" id={props.name} onChange={props.handler} value={props.value}>
-          {props.options.map((option) => 
+        <select
+          className="form-control"
+          id={props.name}
+          onChange={props.handler}
+          value={props.value}
+        >
+          {props.options.map(option => (
             <option value={option}>{option}</option>
-          )}
+          ))}
         </select>
       );
       break;
     case "textarea":
-      formElement = <textarea className="form-control" id={props.name} onChange={props.handler} rows="3">{props.value}</textarea>
+      formElement = (
+        <textarea
+          className="form-control"
+          id={props.name}
+          onChange={props.handler}
+          rows="3"
+        >
+          {props.value}
+        </textarea>
+      );
       break;
     default:
-      formElement = <input className="form-control" type="text" id={props.name} onChange={props.handler} value={props.value} />
+      formElement = (
+        <input
+          className="form-control"
+          type="text"
+          id={props.name}
+          name={props.name}
+          onChange={props.handler}
+          value={props.value}
+        />
+      );
   }
   return (
     <div className="form-group">
@@ -68,15 +100,15 @@ export function FormField(props) {
 
 /**
  * Used to put two or more FormFields next to each other.
- * Inner HTML: form fields, from left to right 
-*/
+ * Inner HTML: form fields, from left to right
+ */
 export function FormRow(props) {
   return (
     <div className="gridContainer">
       <div className="row">
-        {props.children.map((field) =>
+        {props.children.map(field => (
           <div className="col">{field}</div>
-        )}
+        ))}
       </div>
     </div>
   );

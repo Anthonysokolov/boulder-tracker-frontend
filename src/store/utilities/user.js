@@ -12,20 +12,20 @@ const SET_ERROR = "SET_ERROR";
  * Makes an action that will let the frontend know that a user has logged in.
  * This should only be called after the backend has authenticated this user
  * and created a session.
- * @param user  (string) the username 
-*/
+ * @param user  (string) the username
+ */
 const login = user => {
   return {
     type: GET_USER,
     username: user
-  }
-}
+  };
+};
 
 const logout = () => {
   return {
     type: REMOVE_USER
   };
-}
+};
 
 /**
  * Makes an action that will update the status code and message of this slice
@@ -33,8 +33,8 @@ const logout = () => {
  * Call it before and after an asynchronous action. This will let subscribed
  * components change their state when the status is right.
  * @param statusCode  a constant from StatusCode (index.js)
- * @param message     a string to show the user 
-*/
+ * @param message     a string to show the user
+ */
 function setStatus(statusCode, message) {
   return {
     type: SET_ERROR,
@@ -53,32 +53,46 @@ function setStatus(statusCode, message) {
  * @param username  (string) the username of the user
  * @param password  (string) the password of the user
  * @post            the status will be updated to either success or error
-*/
-export function loginThunk(username, password, history) {
+ */
+export function loginThunk(username, password, method, history) {
   return function(dispatch) {
     dispatch(setStatus(StatusCode.LOADING, "Logging in..."));
-    axios.post("/auth/login", { username, password }, { withCredentials: true })
-    .then(res => {
-      axios.get("/auth/me", { withCredentials: true })
+    console.log("working?", username, password, method);
+    axios
+      .post(
+        "/auth/" + method + "/",
+        { username, password },
+        { withCredentials: true }
+      )
       .then(res => {
-        console.log("Response from /auth/me ", res);
+        axios
+          .get("/auth/me", { withCredentials: true })
+          .then(res => {
+            console.log("Response from /auth/me ", res);
+          })
+          .catch(error => {
+            console.log("error");
+          });
+        dispatch(login(username));
+        dispatch(setStatus(StatusCode.SUCCESS, "Welcome Back!"));
+        history.push("/home");
       })
-      .catch(error => {console.log("error")});
-      dispatch(login(username));
-      dispatch(setStatus(StatusCode.SUCCESS, "Welcome Back!"));
-      history.push("/home");
-    })
-    .catch(authError => {
-      dispatch(setStatus(StatusCode.ERROR, authError.response.data));
-    });
-  }
+      .catch(authError => {
+        dispatch(setStatus(StatusCode.ERROR, authError.response.data));
+      });
+  };
 }
 
 /********************************* REDUCER ***********************************/
-const initialState = {username: "", isLoggedIn: false, status: "", message: ""};
+const initialState = {
+  username: "",
+  isLoggedIn: false,
+  status: "",
+  message: ""
+};
 
 export default function userReducer(state = initialState, action) {
-	switch(action.type) {
+  switch (action.type) {
     case SET_ERROR:
       return Object.assign({}, state, {
         status: action.status,
@@ -94,7 +108,7 @@ export default function userReducer(state = initialState, action) {
         isLoggedIn: false,
         username: ""
       });
-		default:
-			return state;
-	}
+    default:
+      return state;
+  }
 }
