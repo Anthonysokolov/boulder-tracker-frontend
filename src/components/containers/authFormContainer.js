@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import { loginThunk } from "../../thunks";
 import AuthFormView from "../views/authFormView";
 import Status from "../views/Status.jsx";
+
+import "../../styles/common.css";
 
 // Smart container;
 class AuthFormContainer extends Component {
@@ -21,13 +24,16 @@ class AuthFormContainer extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     const formName = event.target.name;
-    this.props.loginOrSignup(this.state.email, this.state.password, formName);
+    this.props.loginOrSignup(this.state.email, this.state.password, this.props.history);
+    this.props.location.state = {};
   }
 
   render() {
+    let message = this.props.location.state;
     return (
       <div>
-        <Status type={this.props.statusCode} text={this.props.errorMessage} ></Status>
+        <h1 className="centered">Bouldering Tracker App</h1>
+        <Status type={message.loginStatus || this.props.statusCode} text={message.loginMessage || this.props.errorMessage} ></Status>
         <AuthFormView
           name={this.props.name}
           displayName={this.props.displayName}
@@ -68,9 +74,9 @@ const mapSignup = state => {
 // Map dispatch to props;
 const mapDispatch = dispatch => {
   return {
-    loginOrSignup: (email, password, formName) => dispatch(loginThunk(email, password, formName))
+    loginOrSignup: (email, password, history) => dispatch(loginThunk(email, password, history))
   }
 };
 
-export const Login = connect(mapLogin, mapDispatch)(AuthFormContainer);
-export const Signup = connect(mapSignup, mapDispatch)(AuthFormContainer);
+export const Login = withRouter(connect(mapLogin, mapDispatch)(AuthFormContainer));
+export const Signup = withRouter(connect(mapSignup, mapDispatch)(AuthFormContainer));
