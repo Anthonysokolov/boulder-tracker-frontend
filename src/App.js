@@ -48,8 +48,17 @@ function App(props) {
           component={UserHomePage}
           loggedIn={props.isLoggedIn}
         />
-        <ProtectedRoute exact path="/session/add" component={AddSessionPage} />
-        <ProtectedRoute path="/session/:id" component={SingleSessionPage} />
+        <ProtectedRoute
+          exact
+          path="/session/add"
+          component={AddSessionPage}
+          loggedIn={props.isLoggedIn}
+        />
+        <ProtectedRoute
+          path="/session/:id"
+          component={SingleSessionPage}
+          loggedIn={props.isLoggedIn}
+        />
         <Route exact path="/" render={HomeComponent} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/signup" component={Signup} />
