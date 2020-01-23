@@ -8,11 +8,17 @@ const REMOVE_USER = "REMOVE_USER";
 const SET_ERROR = "SET_ERROR";
 
 // ACTION CREATORS
-const getUser = user => {
+const login = user => {
   return {
     type: GET_USER,
-    payload: user
+    username: user
   }
+}
+
+const logout = () => {
+  return {
+    type: REMOVE_USER
+  };
 }
 
 /**
@@ -34,13 +40,20 @@ function setStatus(statusCode, message) {
 /********************************* THUNKS ***********************************/
 
 /**
- * Just a template function, will be replaced by something soon.
+ * This will attempt to create a session for the user with the supplied
+ * credentials. If succesful, a cookie will be created that identifies this
+ * user and will automatically be sent in all requests where withCredentials
+ * is true.
+ * @param username  (string) the username of the user
+ * @param password  (string) the password of the user
+ * @post            the status will be updated to either success or error
 */
-export function loginThunk(email, password) {
+export function loginThunk(username, password) {
   return function(dispatch) {
     dispatch(setStatus(StatusCode.LOADING, "Logging in..."));
-    axios.post("/auth/login", { username:email, password }, { withCredentials: true })
+    axios.post("/auth/login", { username, password }, { withCredentials: true })
     .then(res => {
+      dispatch(login(username));
       dispatch(setStatus(StatusCode.SUCCESS, "Welcome Back!"));
     })
     .catch(authError => {
@@ -50,7 +63,7 @@ export function loginThunk(email, password) {
 }
 
 /********************************* REDUCER ***********************************/
-const initialState = {username: "", loggedIn: false, status: "", message: ""};
+const initialState = {username: "", isLoggedIn: false, status: "", message: ""};
 
 export default function userReducer(state = initialState, action) {
 	switch(action.type) {
@@ -58,6 +71,16 @@ export default function userReducer(state = initialState, action) {
       return Object.assign({}, state, {
         status: action.status,
         message: action.message
+      });
+    case GET_USER:
+      return Object.assign({}, state, {
+        isLoggedIn: true,
+        username: action.username
+      });
+    case REMOVE_USER:
+      return Object.assign({}, state, {
+        isLoggedIn: false,
+        username: ""
       });
 		default:
 			return state;
