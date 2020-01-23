@@ -4,13 +4,15 @@ import Button from "../views/Button.jsx";
 
 import { createSessionThunk } from "../../thunks";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom"
 
 class AddSessionPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       location: "",
-      comment: ""
+      comment: "",
+      redirect: false
     };
   }
 
@@ -27,6 +29,7 @@ class AddSessionPage extends Component {
   };
 
   handleSubmit = ele => {
+    this.setState({redirect:true})
     let newSession = {
       location: this.state.location,
       comments: this.state.comment
@@ -36,6 +39,9 @@ class AddSessionPage extends Component {
   };
 
   render() {
+    if(this.state.redirect){
+      return (<Redirect to='/home'/>)
+    }
     return (
       <div>
         <Navbar />
