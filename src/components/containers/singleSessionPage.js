@@ -3,6 +3,7 @@ import Navbar from "./navbar";
 import Session from "../views/sessionDetails.js";
 import ClimbCard from "../views/climbCard.js";
 import AddClimbCard from "../views/addClimbCard.js";
+import BarChart from "./BarChart.js";
 import Status from "../views/Status.jsx";
 
 import { getSessionThunk, addClimbThunk } from "../../thunks";
@@ -17,7 +18,31 @@ class SingleSessionPage extends Component {
       grade: "",
       comment: "",
       sends: 0,
-      attempts: 0
+      attempts: 0,
+      data: [
+        {
+          model_name: "V0",
+          field1: 19,
+          field2: 83
+        },
+        {
+          model_name: "V1",
+          field1: 67,
+          field2: 93
+        },
+        {
+          model_name: "V2",
+          field1: 10,
+          field2: 56
+        },
+        {
+          model_name: "V3",
+          field1: 98,
+          field2: 43
+        }
+      ],
+      width: 700,
+      height: 500
     };
   }
 
@@ -44,7 +69,7 @@ class SingleSessionPage extends Component {
       sends: ele.target.value
     });
   };
-  
+
   handleChangeNumAttempts = ele => {
     this.setState({
       attempts: ele.target.value
@@ -71,8 +96,20 @@ class SingleSessionPage extends Component {
     return (
       <div>
         <Navbar />
-        <Status type={this.props.statusClass} hideStatus="success" text={this.props.statusMessage}>
+        <Status
+          type={this.props.statusClass}
+          hideStatus="success"
+          text={this.props.statusMessage}
+        >
           <Session {...this.props.session} />
+          <div className="centered">
+            <h2> </h2>
+            <BarChart
+              data={this.state.data}
+              width={this.state.width}
+              height={this.state.height}
+            />
+          </div>
           <AddClimbCard
             nameHandler={this.handleChangeName}
             gradeHandler={this.handleChangeGrade}
@@ -82,11 +119,13 @@ class SingleSessionPage extends Component {
             sendsHandler={this.handleChangeNumSends}
           />
           <h2 className="centered">Problems</h2>
-          {
-            (problems.length === 0) &&
-            (<p>Looks like you have not recorded any problem attempts yet. Add one by filling out the fields above.</p>) 
-          }
-          {problems.map((climb) => (
+          {problems.length === 0 && (
+            <p>
+              Looks like you have not recorded any problem attempts yet. Add one
+              by filling out the fields above.
+            </p>
+          )}
+          {problems.map(climb => (
             <ClimbCard {...climb} key={climb.id} />
           ))}
         </Status>
