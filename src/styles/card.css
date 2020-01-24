@@ -11,6 +11,10 @@
 	flex-direction: column;
 }
 
+.card-light {
+	background-color: #FDFFFF;
+}
+
 /* Everything except images should be within the card body */
 .card-body {
 	-webkit-box-flex: 1;

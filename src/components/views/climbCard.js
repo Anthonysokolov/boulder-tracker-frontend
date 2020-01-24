@@ -7,7 +7,7 @@ import "../../styles/common.css";
 export default function ClimbCard(props) {
   return (
     <div>
-      <div className="card">
+      <div className="card card-light">
         <div className="card-body">
           <h5 className="card-title"> {props.name} </h5>
           <h6 className="card-subtitle">Comments</h6>
