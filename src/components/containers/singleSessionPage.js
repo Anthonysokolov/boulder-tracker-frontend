@@ -85,6 +85,7 @@ class SingleSessionPage extends Component {
           text={this.props.statusMessage}
         >
           <Session {...this.props.session} />
+          {problems.length > 0 && (
           <Status
             type={this.props.graphStatusClass}
             hideStatus="success"
@@ -100,6 +101,7 @@ class SingleSessionPage extends Component {
               />
             </div>
           </Status>
+          )}
           <AddClimbCard
             nameHandler={this.handleChangeName}
             gradeHandler={this.handleChangeGrade}
