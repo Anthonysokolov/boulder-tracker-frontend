@@ -2,21 +2,11 @@ import React from "react";
 import { FormBase, FormField, FormRow } from "./Form.jsx";
 
 const AuthFormView = props => {
-  const {
-    name,
-    displayName,
-    handleSubmit,
-    error,
-    handleChange,
-    isLoggedIn,
-    userEmail
-  } = props;
-
   return (
     <div>
       <FormBase
-        button={props.displayName}
-        title={props.displayName}
+        button={props.formTitle}
+        title={props.formTitle}
         onSubmit={props.handleSubmit}
       >
         <FormField
@@ -26,7 +16,7 @@ const AuthFormView = props => {
           label="Username"
         />
         <FormField
-          type="text"
+          type="password"
           name="password"
           handler={props.handleChange}
           label="Password"

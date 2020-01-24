@@ -18,17 +18,15 @@ class AuthFormContainer extends Component {
   }
 
   handleChange = event => {
-    console.log(event.target.name, ":", event.target.value);
     this.setState({ [event.target.name]: event.target.value });
   };
 
   handleSubmit = event => {
     event.preventDefault();
-    const formName = event.target.name;
     this.props.loginOrSignup(
       this.state.username,
       this.state.password,
-      this.props.name,
+      this.props.action,
       this.props.history
     );
     this.props.location.state = {};
@@ -44,13 +42,9 @@ class AuthFormContainer extends Component {
           text={message.loginMessage || this.props.errorMessage}
         ></Status>
         <AuthFormView
-          name={this.props.name}
-          displayName={this.props.displayName}
-          error={this.props.error}
+          formTitle={this.props.formTitle}
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}
-          isLoggedIn={this.props.isLoggedIn}
-          userEmail={this.props.username}
         />
       </div>
     );
@@ -60,8 +54,8 @@ class AuthFormContainer extends Component {
 // Map state to props;
 const mapLogin = state => {
   return {
-    name: "login",
-    displayName: "Login",
+    action: "login",
+    formTitle: "Login",
     statusCode: state.user.status,
     errorMessage: state.user.message,
     isLoggedIn: state.user.isLoggedIn,
@@ -72,8 +66,8 @@ const mapLogin = state => {
 // Map state to props;
 const mapSignup = state => {
   return {
-    name: "signup",
-    displayName: "Sign Up",
+    action: "signup",
+    formTitle: "Sign Up",
     statusCode: state.user.status,
     errorMessage: state.user.message,
     isLoggedIn: state.user.isLoggedIn,
@@ -84,8 +78,8 @@ const mapSignup = state => {
 // Map dispatch to props;
 const mapDispatch = dispatch => {
   return {
-    loginOrSignup: (email, password, method, history) =>
-      dispatch(loginThunk(email, password, method, history))
+    loginOrSignup: (email, password, action, history) =>
+      dispatch(loginThunk(email, password, action, history))
   };
 };
 
