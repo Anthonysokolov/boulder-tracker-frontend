@@ -6,3 +6,4 @@
 export { default as user } from "../store/utilities/user";
 export { default as sessions } from "../store/utilities/sessions";
 export { default as singleSession } from "../store/utilities/singleSession";
+export { default as graphReducer } from "../store/utilities/graph";
