@@ -6,23 +6,23 @@ import * as StatusCode from "./index.js";
 const FETCH_DATA = "FETCH_DATA";
 const SET_ERROR = "SET_ERROR";
 
-/** 
- * This will make an action that will update the store with a list of 
+/**
+ * This will make an action that will update the store with a list of
  * data points
-*/
+ */
 function fetchAction(data) {
   return {
-    type: FETCH_SESSIONS,
+    type: FETCH_DATA,
     payload: data
   };
 }
 
 /**
- * This will make an action that can update the status of this "slice" of the 
+ * This will make an action that can update the status of this "slice" of the
  * Redux store.
  * @param status   one of the constants from StatusCode (index.js)
- * @param message  a string describing the error, presented to the user 
-*/
+ * @param message  a string describing the error, presented to the user
+ */
 function setStatus(status, message) {
   return {
     type: SET_ERROR,
@@ -49,13 +49,18 @@ export function fetchGraphThunk() {
       })
       .catch(function(response) {
         console.log("Error from axios:", response);
-        dispatch(setStatus(StatusCode.ERROR, "Could not load user data. Please make sure you are logged in."))
+        dispatch(
+          setStatus(
+            StatusCode.ERROR,
+            "Could not load user data. Please make sure you are logged in."
+          )
+        );
       });
   };
 }
 
 /********************************* REDUCER ***********************************/
-const initialState = {status: "", message: "", data: []};
+const initialState = { status: "", message: "", data: [] };
 
 export default function graphReducer(state = initialState, action) {
   switch (action.type) {

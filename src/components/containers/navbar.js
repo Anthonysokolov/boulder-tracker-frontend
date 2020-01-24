@@ -12,9 +12,15 @@ class Navbar extends Component {
       <div className="navbar">
         <ul>
           <li>{this.props.username}</li>
-          <li><NavLink to="/home"  >Home</NavLink></li>
-          <li><NavLink to="/invite">Invite</NavLink></li>
-          <li><NavLink to="/logout">Logout</NavLink></li>
+          <li>
+            <NavLink to="/home">Home</NavLink>
+          </li>
+          <li>
+            <NavLink to="/graphs">Stats</NavLink>
+          </li>
+          <li>
+            <NavLink to="/logout">Logout</NavLink>
+          </li>
         </ul>
       </div>
     );

@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import Home from "./components/views/home";
 import SingleSessionPage from "./components/containers/singleSessionPage";
 import UserHomePage from "./components/containers/userHomePage";
+import GraphPage from "./components/containers/graphPage";
 import AddSessionPage from "./components/containers/addSessionPage";
 import { Login, Signup } from "./components/containers/authFormContainer";
 import Logout from "./components/containers/logout.js";
@@ -38,6 +39,7 @@ const ProtectedRoute = ({ component: Comp, loggedIn, path, ...rest }) => {
 function App(props) {
   const HomeComponent = () => <Home />;
   const UserHomeComponent = () => <UserHomePage />;
+  const GraphComponent = () => <GraphPage />;
 
   console.log("app's props", props);
 
@@ -56,14 +58,20 @@ function App(props) {
           loggedIn={props.isLoggedIn}
         />
         <ProtectedRoute
+          exact
+          path="/graphs"
+          component={GraphPage}
+          loggedIn={props.isLoggedIn}
+        />
+        <ProtectedRoute
           path="/session/:id"
           component={SingleSessionPage}
           loggedIn={props.isLoggedIn}
         />
-        <ProtectedRoute 
-          path="/logout" 
-          component={Logout} 
-          loggedIn={props.isLoggedIn} 
+        <ProtectedRoute
+          path="/logout"
+          component={Logout}
+          loggedIn={props.isLoggedIn}
         />
         <Route exact path="/" render={HomeComponent} />
         <Route exact path="/login" component={Login} />
