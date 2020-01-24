@@ -59,7 +59,7 @@ class AddSessionPage extends Component {
               label="Location"
             />
             <FormField
-              type="text"
+              type="textarea"
               name="comment"
               handler={this.handleChangeComment}
               label="Comment"

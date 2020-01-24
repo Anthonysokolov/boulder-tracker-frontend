@@ -107,6 +107,7 @@ class SingleSessionPage extends Component {
             submitHandler={this.handleSubmit}
             attemptsHandler={this.handleChangeNumAttempts}
             sendsHandler={this.handleChangeNumSends}
+            visible={problems.length == 0}
           />
           <h2 className="centered">Problems</h2>
           {problems.length === 0 && (

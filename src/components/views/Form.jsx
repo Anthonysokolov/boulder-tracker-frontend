@@ -17,11 +17,14 @@ export function FormBase(props) {
     <div className="form-container">
       <h2 className="form-title">{props.title}</h2>
       {props.children}
-      <div className="centered">
-        <Button shape="long" onClick={props.onSubmit}>
-          {props.button}
-        </Button>
-      </div>
+      {/* Show a button if a name for it was specified */}
+      {props.button && 
+        <div className="centered">
+          <Button shape="long" onClick={props.onSubmit}>
+            {props.button}
+          </Button>
+        </div>
+      }
     </div>
   );
 }
