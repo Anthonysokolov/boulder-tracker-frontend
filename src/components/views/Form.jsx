@@ -29,7 +29,7 @@ export function FormBase(props) {
 /**
  * Used to display a fancy form input when used inside a FormBase
  * Props:
- * type     (string) one of: text (default), number, select, textarea
+ * type     (string) one of: text (default), number, password, select, textarea
  * name     (string) has no bearing on functionality, but should be unique
  * value    (string) the default value before the user types anything
  * handler  (function) the handler to call when the input changes
@@ -42,10 +42,11 @@ export function FormField(props) {
   let formElement;
   switch (props.type) {
     case "number":
+    case "password":
       formElement = (
         <input
           className="form-control"
-          type="number"
+          type={props.type}
           id={props.name}
           onChange={props.handler}
           value={props.value}
