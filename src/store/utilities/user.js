@@ -57,7 +57,6 @@ function setStatus(statusCode, message) {
 export function loginThunk(username, password, method, history) {
   return function(dispatch) {
     dispatch(setStatus(StatusCode.LOADING, "Logging in..."));
-    console.log("working?", username, password, method);
     axios
       .post(
         "/auth/" + method + "/",
@@ -68,19 +67,38 @@ export function loginThunk(username, password, method, history) {
         axios
           .get("/auth/me", { withCredentials: true })
           .then(res => {
-            console.log("Response from /auth/me ", res);
+            dispatch(login(username));
+            dispatch(setStatus(StatusCode.SUCCESS, "Welcome Back!"));
+            history.push("/home");
           })
           .catch(error => {
-            console.log("error");
+            dispatch(setStatus(StatusCode.ERROR, "Failed to login. Please try again later."));
           });
-        dispatch(login(username));
-        dispatch(setStatus(StatusCode.SUCCESS, "Welcome Back!"));
-        history.push("/home");
       })
       .catch(authError => {
         dispatch(setStatus(StatusCode.ERROR, authError.response.data));
       });
   };
+}
+
+/**
+ * This will attempt to destroy the session of the user logged in.
+ * @param history  the virtual history from react router.
+ * @post           redirect to home page
+ */
+export function logoutThunk(history) {
+  return function(dispatch) {
+    dispatch(setStatus(StatusCode.LOADING, "Logging out..."));
+    axios.delete("/auth/logout")
+    .then(res => {
+      dispatch(logout());
+      dispatch(setStatus(StatusCode.SUCCESS, "Logged out"));
+      history.push("/");
+    })
+    .catch(error => {
+      dispatch(setStatus(StatusCode.ERROR, "Could not logout."));
+    });
+  }
 }
 
 /********************************* REDUCER ***********************************/

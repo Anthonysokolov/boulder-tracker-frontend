@@ -7,6 +7,7 @@ import SingleSessionPage from "./components/containers/singleSessionPage";
 import UserHomePage from "./components/containers/userHomePage";
 import AddSessionPage from "./components/containers/addSessionPage";
 import { Login, Signup } from "./components/containers/authFormContainer";
+import Logout from "./components/containers/logout.js";
 import Navbar from "./components/containers/navbar.js";
 
 const ProtectedRoute = ({ component: Comp, loggedIn, path, ...rest }) => {
@@ -58,6 +59,11 @@ function App(props) {
           path="/session/:id"
           component={SingleSessionPage}
           loggedIn={props.isLoggedIn}
+        />
+        <ProtectedRoute 
+          path="/logout" 
+          component={Logout} 
+          loggedIn={props.isLoggedIn} 
         />
         <Route exact path="/" render={HomeComponent} />
         <Route exact path="/login" component={Login} />
